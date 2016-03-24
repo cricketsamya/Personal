@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:composition template="/templates/basic.xhtml">
+        <ui:param name="moduleTitle" value="#{msg.User_Register_Title}"></ui:param>
+        <ui:define name="body">
+            <div class="entry">
+                <p><strong><h:outputLabel value="#{msg.User_Register_Reqd}" /></strong> </p>
+
+                <h:form>
+                    <h:outputLabel value="#{userRegistrationHandler.userdetails.strErrorMessage}" />
+                    <h:panelGrid columns="3" width="100%">
+
+                        <h:outputLabel >
+                            <h:outputText value="#{msg.User_Register_FName}"/> <h:outputText styleClass="required_field" value=" *" />
+                        </h:outputLabel>
+
+                        <h:inputText id="strFirstname" value="#{userRegistrationHandler.userdetails.strFirstname}" requiredMessage="#{msg.User_Register_FName_ReqdMsg}" size="40" required="true"  maxlength="80"/>
+                        <h:message for="strFirstname" style="color:red"/>
+
+                        <h:outputLabel >
+                            <h:outputText value="#{msg.User_Register_LName}"/> <h:outputText styleClass="required_field" value=" *" />
+                        </h:outputLabel>
+                        <h:inputText id="strLastname" value="#{userRegistrationHandler.userdetails.strLastname}" size="40" requiredMessage="#{msg.User_Register_LName_ReqdMsg}" required="true"  maxlength="80"/>
+                        <h:message for="strLastname" style="color:red"/>
+
+                        <h:outputLabel >
+                            <h:outputText value="#{msg.User_Register_Password} "/> <h:outputText styleClass="required_field" value=" *" />
+                        </h:outputLabel>
+                        <h:inputSecret id="strPassword" value="#{userRegistrationHandler.userdetails.strPassword}" size="40" requiredMessage="#{msg.User_Register_Password_ReqdMsg}" required="true"  maxlength="80"/>
+                        <h:message for="strPassword" style="color:red"/>
+
+                        <h:outputLabel >
+                            <h:outputText value="#{msg.User_Register_Email}"/> <h:outputText styleClass="required_field" value=" *" />
+                        </h:outputLabel>
+                        <h:inputText id="strEmailID" value="#{userRegistrationHandler.userdetails.strEmailID}" size="40" requiredMessage="#{msg.User_Register_Email_ReqdMsg}" required="true"  maxlength="80">
+                            <f:validator validatorId="checkvalidemail" />
+                        </h:inputText>
+                        <h:message for="strEmailID" style="color:red"/>
+                        <h:outputText value="" />
+                        <h:commandButton action="#{userRegistrationHandler.register}"  value="#{msg.User_Register_ButtonRegister}"/>
+
+                    </h:panelGrid>
+
+                    <br></br>
+                    <br></br>
+                    <h:outputLabel >
+                        <h:outputText value="#{msg.User_Register_ReqdMsg1}"/> <h:outputText styleClass="required_field" value=" *" />
+                        <h:outputText value="#{msg.User_Register_ReqdMsg2}"/>
+                    </h:outputLabel>
+
+
+                    <!-- <h:messages style="color: red;"/>-->
+
+                </h:form>
+            </div>
+        </ui:define>
+
+
+    </ui:composition>
+</html>

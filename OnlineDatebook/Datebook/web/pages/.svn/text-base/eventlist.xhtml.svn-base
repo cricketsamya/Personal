@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!--/**
+ *
+ * @author Shamim
+ */-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+
+    <ui:composition template="/templates/basic.xhtml">
+
+        <ui:param name="moduleTitle" value="#{msg.User_ListEvents_Title}"></ui:param>
+        <ui:define name="leftBar">
+            <ui:include src="/templates/include/todayevent.xhtml" />
+        </ui:define>
+        <ui:define name="body">
+            <a4j:outputPanel layout="block" style="margin-left: 10px;">
+                <h:form id="form" >
+                    <table>
+
+                        <tr>
+                            <td colspan="2">
+                                <h:outputLabel value="#{msg.User_ListEvents_Reqd}"></h:outputLabel><br/>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>
+                                <h:selectOneMenu value="#{eventViewHandler.eventType}">
+                                    <f:selectItems value="#{deleteeventhandler.lstEventList}" />
+                                </h:selectOneMenu>
+                            </td>
+                            <td>
+                                <h:outputLabel value="#{msg.User_ListEvents_DateBetween}"></h:outputLabel>
+                            </td>                            
+                            <td>
+                                <rich:calendar value="#{eventViewHandler.dateStart}" required="false" enableManualInput="true"
+                                               datePattern="dd-MM-yyyy" />
+                            </td>     
+                            <td>
+                                <h:outputLabel value="#{msg.User_ListEvents_And}"></h:outputLabel>
+                            </td>    
+                            <td>
+                                <rich:calendar value="#{eventViewHandler.dateEnd}" required="false" enableManualInput="true"
+                                               datePattern="dd-MM-yyyy"/>
+                            </td>                                                                             
+                            <td>
+                                <a4j:commandButton action="#{eventViewHandler.loadEvents}" value="#{msg.User_ListEvents_ButtonFind}" reRender="idDataGrid">
+                                </a4j:commandButton>                              
+                            </td>
+
+                        </tr>
+                    </table>
+
+                    <br></br>
+
+                    <rich:dataTable id="idDataGrid"  width="100%"  rowClasses=",container_even_row_style" rows="10"  columnsWidth="150,,150"
+                                    var="item" value="#{eventViewHandler.eventList}" headerClass="table_column_style"
+                                    cellpadding="0" cellspacing="0" >
+                        <rich:column>
+                            <f:facet name="header">
+                                <h:outputText value="Date"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dtEventdate}">
+                                <f:convertDateTime timeZone="GMT+2"  pattern="dd-MM-yyyy hh:mm"/>
+                            </h:outputText>
+
+                        </rich:column>
+                        <rich:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.User_ListEvents_TblHeader_Disc}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.strEventdescription}"></h:outputText>
+                        </rich:column>
+                        <rich:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.User_ListEvents_TblHeader_Freq}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.intFrequencyID.strFrequencydescription}"></h:outputText>
+                        </rich:column>
+                        <rich:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.User_ListEvents_TblHeader_Category}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.intEventTypeID.strEventtype}"></h:outputText>
+                        </rich:column>
+                        <rich:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.User_ListEvents_TblHeader_Action}"/>
+                            </f:facet>
+                            <rich:spacer width="15"/>
+
+                            <a4j:commandLink reRender="idEventDialog"  actionListener="#{weeklyViewHandler.loadEvent}"   oncomplete="Richfaces.showModalPanel('idEventDialog')">
+                                <f:attribute name="eventid" value="#{item.intEventID}" />
+                                <h:graphicImage value="/images/edit.png" >
+                                </h:graphicImage>
+                                <rich:toolTip styleClass="tooltips_style"  >
+                                    <span class="tooltips_span_style">
+                                        <h:outputText value="#{msg.User_ListEvents_EditTooltip}"/><br/>
+                                    </span>
+                                </rich:toolTip>
+                                <!--</a4j:commandLink>-->
+                            </a4j:commandLink>
+                            <rich:spacer width="15"/>
+
+
+                            <h:commandLink  actionListener="#{displayeventhandler.deleteEvent}"
+                                onclick="if(!confirm('Are you sure you want to delete this record?'))return false;">
+                                <f:attribute name="intEventID" value="#{item.intEventID}" />
+                                <h:graphicImage value="/images/delete.png" >
+                                </h:graphicImage>
+                                <rich:toolTip styleClass="tooltips_style"  >
+                                    <span class="tooltips_span_style">
+                                        <h:outputText value="#{msg.User_ListEvents_DeleteTooltip}"/><br/>
+                                    </span>
+                                </rich:toolTip>
+                            </h:commandLink>
+                            <!--</a4j:commandLink>-->
+                        </rich:column>
+                    </rich:dataTable>
+
+                    <rich:datascroller id="idDataScroller" align="center"  for="idDataGrid" maxPages="5" />
+
+                </h:form>
+
+
+
+            </a4j:outputPanel>
+        </ui:define>
+
+        <ui:define name="modalPanels">
+            <a4j:region>
+                <ui:include src="./modal/eventDialog.xhtml">
+
+                </ui:include>
+            </a4j:region>
+        </ui:define>
+
+
+    </ui:composition>
+</html>
+

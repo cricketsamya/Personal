@@ -1,0 +1,58 @@
+create table stud_per(
+roll_no varchar2(5),
+sess number(4),
+fname varchar2(20),
+mname varchar2(20),
+lname varchar2(20),
+laddr varchar2(80),
+lphone varchar2(20),
+paddr varchar2(80),
+pphone varchar2(20),
+mail varchar2(40),
+dob date,
+company varchar2(40),
+plcd number(1),
+constraint stud_pk primary key(roll_no,sess));
+
+
+
+create table stud_extra(
+roll_no varchar2(5),
+sess number(4),
+proj varchar2(300),
+extra_acad varchar2(200),
+extra_curr varchar2(150),
+constraint extra_pk primary key (roll_no,sess),
+constraint extra_fk foreign key (roll_no,sess)
+references stud_per(roll_no,sess) on delete cascade);
+
+
+
+create table stud_acad(
+roll_no varchar2(5),
+sess number(4),
+ssc number(4,2),
+hsc number(4,2),
+fe1 number(4,2),
+fe2 number(4,2),
+se1 number(4,2),
+se2 number(4,2),
+te1 number(4,2),
+te2 number(4,2),
+be1 number(4,2),
+be2 number(4,2),
+eng_dip number(1),
+perc number(5,2),
+kt number(1),
+constraint acad_pk primary key (roll_no,sess),
+constraint acad_fk foreign key (roll_no,sess)
+references stud_per(roll_no,sess) on delete cascade);
+
+create table PTimeStamp(
+roll_no varchar2(5),
+sess number(4),
+timestmp timestamp,
+constraint TimeStamp_pk primary key (roll_no,sess),
+constraint TimeStamp_fk foreign key (roll_no,sess)
+references stud_per(roll_no,sess))
+

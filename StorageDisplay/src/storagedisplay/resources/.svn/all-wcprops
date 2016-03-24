@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/88/trunk/StorageDisplay/src/storagedisplay/resources
+END
+StorageDisplayView.properties
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/88/trunk/StorageDisplay/src/storagedisplay/resources/StorageDisplayView.properties
+END
+StorageDisplayApp.properties
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/88/trunk/StorageDisplay/src/storagedisplay/resources/StorageDisplayApp.properties
+END
+StorageDisplayAboutBox.properties
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/88/trunk/StorageDisplay/src/storagedisplay/resources/StorageDisplayAboutBox.properties
+END
+about.png
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/88/trunk/StorageDisplay/src/storagedisplay/resources/about.png
+END
+splash.png
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/88/trunk/StorageDisplay/src/storagedisplay/resources/splash.png
+END

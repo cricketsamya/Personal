@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/184/trunk/Datebook/src/java/de/fhhof/datebook/user/view
+END
+DeleteEventHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/150/trunk/Datebook/src/java/de/fhhof/datebook/user/view/DeleteEventHandler.java
+END
+UserLoginHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/166/trunk/Datebook/src/java/de/fhhof/datebook/user/view/UserLoginHandler.java
+END
+EditEventHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/69/trunk/Datebook/src/java/de/fhhof/datebook/user/view/EditEventHandler.java
+END
+DisplayEventHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/151/trunk/Datebook/src/java/de/fhhof/datebook/user/view/DisplayEventHandler.java
+END
+UserLogoutHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/104/trunk/Datebook/src/java/de/fhhof/datebook/user/view/UserLogoutHandler.java
+END
+UserRegistrationHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/126/trunk/Datebook/src/java/de/fhhof/datebook/user/view/UserRegistrationHandler.java
+END
+UserProfileHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/184/trunk/Datebook/src/java/de/fhhof/datebook/user/view/UserProfileHandler.java
+END
+UserEventHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/178/trunk/Datebook/src/java/de/fhhof/datebook/user/view/UserEventHandler.java
+END

@@ -1,0 +1,141 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package fofprotocol;
+
+import net.Connection;
+import net.Message;
+import net.MessageIf;
+
+/**
+ * This class is used to connect to the Storage Simulator.
+ * For the connection from Storage module the Storage-Control will act as a Client.
+ * @author Sameer
+ */
+public class ClientStorageControl {
+
+    private static final String ACK_SENDER = "la";
+    private static final String ACK_RECEIVER = "sl";
+    private ServerStorageControl serverStorage;
+    private Connection connectionToStorage = null;
+
+    public void start() {
+        boolean bConnectionEstablished = false;
+        while (true) {
+            try {
+//                connectionToStorage = new Connection("127.0.0.1", 9999, "la", "Sl");
+                if(connectionToStorage==null){
+                        connectionToStorage = new Connection(9999, "Sl", "la"); //Server side
+                        bConnectionEstablished = true;
+                }
+
+                
+            } catch (Exception ex) {
+            }
+            if (bConnectionEstablished) {
+                getPalletFromStorage("111");
+            }
+        }
+    }
+
+    public ServerStorageControl getServerStorage() {
+        return serverStorage;
+    }
+
+    public void setServerStorage(ServerStorageControl serverStorage) {
+        this.serverStorage = serverStorage;
+    }
+
+    public boolean getPalletFromStorage(String strPalletId) {
+        Boolean isSuccess = false;
+        MessageIf msgAckOneFromStorage = null;
+        MessageIf msgAckTwoFromStorage = null;
+        MessageIf msgCommandToStorage = new Message("K001", strPalletId);
+        connectionToStorage.send(msgCommandToStorage);
+        msgAckOneFromStorage = connectionToStorage.receive();
+        Message msgAck1 = ((Message) msgAckOneFromStorage);
+        if (isValidCommunication(msgAck1)) {
+            String strCommand1 = msgAck1.getCommand();
+            String strPayload1 = msgAck1.getPayload();
+            if (strCommand1.equals("A001") && strPayload1.equals("0000")) {
+                msgAckTwoFromStorage = ((Message) msgAckOneFromStorage);
+                String strCommand2 = msgAckTwoFromStorage.getCommand();
+                String strPayload2 = msgAckTwoFromStorage.getPayload();
+                if (strCommand2.equals("A002")) {
+                    if (strPayload2.equals("0000")) {
+                        isSuccess = true;
+                        System.out.println("Pallet is successfully removed.!");
+                    }
+                } else if (strCommand2.equals("F000")) {
+                    if (strPayload2.equals("0000")) {
+                        isSuccess = false;
+                        System.out.println("Error in command!");
+                    }
+                } else if (strCommand2.equals("F001")) {
+                    if (strPayload2.equals("0000")) {
+                        isSuccess = false;
+                        System.out.println("Error in Pallet removal.!");
+                    }
+                }
+            }
+        } else {
+            System.out.println("Not a valid communication");
+        }
+        return isSuccess;
+
+    }
+
+    public boolean putPalletIntoStorage(String strPalletId) {
+        Boolean isSuccess = false;
+        MessageIf msgAckOneFromStorage = null;
+        MessageIf msgAckTwoFromStorage = null;
+        MessageIf msgCommandToStorage = new Message("K002", strPalletId);
+        connectionToStorage.send(msgCommandToStorage);
+        msgAckOneFromStorage = connectionToStorage.receive();
+        Message msgAck1 = ((Message) msgAckOneFromStorage);
+        if (isValidCommunication(msgAck1)) {
+            String strCommand1 = msgAck1.getCommand();
+            String strPayload1 = msgAck1.getPayload();
+            if (strCommand1.equals("A001") && strPayload1.equals("0000")) {
+                msgAckTwoFromStorage = ((Message) msgAckOneFromStorage);
+                String strCommand2 = msgAckTwoFromStorage.getCommand();
+                String strPayload2 = msgAckTwoFromStorage.getPayload();
+                if (strCommand2.equals("A002")) {
+                    if (strPayload2.equals("0000")) {
+                        isSuccess = true;
+                        System.out.println("Pallet is successfully removed.!");
+                    }
+                } else if (strCommand2.equals("F000")) {
+                    if (strPayload2.equals("0000")) {
+                        isSuccess = false;
+                        System.out.println("Error in command!");
+                    }
+                } else if (strCommand2.equals("F001")) {
+                    if (strPayload2.equals("0000")) {
+                        isSuccess = false;
+                        System.out.println("Error in Pallet removal.!");
+                    }
+                }
+            }
+        } else {
+            System.out.println("Not a valid communication");
+        }
+        return isSuccess;
+
+
+    }
+
+    private boolean isValidCommunication(Message objMessage) {
+        boolean isValid = false;
+        if (objMessage.getSender().equals(ACK_SENDER) && objMessage.getReceiver().equals(ACK_RECEIVER)) {
+            isValid = true;
+        }
+        return isValid;
+    }
+
+    public static void main(String[] args) {
+        ClientStorageControl c = new ClientStorageControl();
+        c.start();
+    }
+}

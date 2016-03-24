@@ -1,0 +1,44 @@
+***************INSERT FUNCTION*****************
+CREATE OR REPLACE FUNCTION PlacementFunc(query1 in varchar2,
+query2 in varchar2, query3 in varchar2)
+RETURN NUMBER IS
+BEGIN
+	savepoint previous_state;
+
+	execute immediate(query1);
+	execute immediate(query2);
+	execute immediate(query3);
+	commit;
+	return 1;
+
+EXCEPTION
+when others then
+rollback to previous_state;
+
+return 0;
+END; 
+
+***************COUNT FUNCTION*****************
+function count_records (counter in varchar)
+return number IS
+cnt number;
+BEGIN
+ select count(*) into cnt from stud_extra;
+return cnt;
+end;
+
+
+
+****************PL/SQL BLOCK FOR TESTING INSERT FUNCTION*******************************
+
+declare
+ result number;
+ begin
+  result:=PlacementFunc('insert into stud_per values(''T1650'',506,''gaurav'','''',''r'',
+''asdad'',''324'',''asefe'',''25342'',''adaefwf'',''23-AUG-85'',''qewqew'',1)',
+ 'insert into stud_acad values(''T1650'',506,66,66,66,66,66,66,66,66,66,66,0,66,0)',
+ 'insert into stud_extra values(''T1650'',506,''wsefwqfwefwef'',''wgwgfwfwef'',
+''qwe rf w'')');
+ dbms_output.put_line(result);
+ end;
+/

@@ -1,0 +1,43 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package fofprotocol;
+
+import java.io.IOException;
+import net.Connection;
+import net.Message;
+import net.MessageIf;
+
+/**
+ *
+ * @author sameer
+ * @version  1.0
+ */
+public class Server {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws IOException {
+        // TODO code application logic here
+        Connection connection = new Connection(9999, "St", "la"); //Server side
+        while (true) {
+            MessageIf msg1 = new Message("K001", "some payload");
+            connection.send(msg1);
+            MessageIf msg = connection.receive();
+            Message message = ((Message) msg);
+            String payload = message.getPayload();
+            String command = message.getCommand();
+            String msgId = message.getMsdId();
+            System.out.println(command + " " + payload + " " + msgId);
+            message.ack("A001", "Ack 1");
+            message.ack("F002", "Failed 1");
+            try {
+                Thread.sleep(5000);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+}

@@ -1,0 +1,221 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package net;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.net.Socket;
+import java.util.Date;
+
+/**
+ *
+ * @author sameer
+ */
+public class Message implements MessageIf {
+
+    public static int msgCount = 0;
+    private BigInteger number;
+    private String Command = null;
+    private String Payload = null;
+    private String MsgId = null;
+    private static String strOldMsgId = "";
+    public static String strHost = null;
+    public static String strGuest = null;
+    public static Socket socket = null;
+    public static DataInputStream in = null;
+    public static DataOutputStream out = null;
+    Connection connection = null;
+
+    public Message() {
+    }
+
+    public Message(BigInteger number) {
+        this.number = number;
+    }
+
+    public Message(String Command, String Payload) {
+
+        this.Command = Command;
+        this.Payload = Payload;
+    }
+
+    public BigInteger getNumber() {
+        return number;
+    }
+
+    public byte[] getRawMessage() {
+        String asciiNumber = number.toString();
+//ASCII representation
+        String asciiLength = pad(asciiNumber.length()); //padded length
+        return (asciiLength + asciiNumber).getBytes();
+    }
+
+//    public static MessageIf receive(DataInputStream in) {
+//        try {
+//            byte[] length = new byte[4];
+//            in.readFully(length);
+//            int len = Integer.parseInt(new String(length));
+//            byte[] rawNumber = new byte[len];
+//            in.readFully(rawNumber);
+//            String numberStr = new String(rawNumber);
+//            BigInteger number = new BigInteger(numberStr);
+//            return new Message(number);
+//        } catch (IOException e) {
+//// TODO Error Handling
+//            e.printStackTrace();
+//            System.exit(-1);
+//        }
+//        return null;
+//    }
+    public static MessageIf receive(DataInputStream in) {
+        try {
+            byte[] byteHost = new byte[2];
+            in.readFully(byteHost);
+            String strHost = new String(byteHost);
+
+            byte[] byteGuest = new byte[2];
+            in.readFully(byteGuest);
+            String strGuest = new String(byteGuest);
+
+            byte[] byteMsgType = new byte[1];
+            in.readFully(byteMsgType);
+            String strMsgType = new String(byteMsgType);
+
+            byte[] byteMsgNumber = new byte[3];
+            in.readFully(byteMsgNumber);
+            String strMsgNumber = new String(byteMsgNumber);
+
+            byte[] byteMsdId = new byte[13];
+            in.readFully(byteMsdId);
+            String strMsdId = new String(byteMsdId);
+
+            byte[] bytePayloadLen = new byte[4];
+            in.readFully(bytePayloadLen);
+            String strPayloadLen = new String(bytePayloadLen);
+
+            byte[] bytePayload = new byte[Integer.parseInt(strPayloadLen)];
+            in.readFully(bytePayload);
+            String strPayload = new String(bytePayload);
+            Message msg = new Message(strMsgType + strMsgNumber, strPayload);
+            msg.setMsgId(strMsdId);
+            msg.setReceiver(strHost);
+            msg.setSender(strGuest);
+
+            return msg;
+        } catch (IOException e) {
+// TODO Error Handling
+            e.printStackTrace();
+            System.exit(-1);
+        }
+        return null;
+    }
+
+    public void ack(String strCommand, String strPayload) {
+        Connection connection = new Connection(socket, in, out);
+        connection.setStrGuest(strGuest);
+        connection.setStrHost(strHost);
+        //new Message(strCommand, strPayload), connection,MsgId
+        Message message = new Message();
+        message.setCommand(strCommand);
+        message.setPayload(strPayload);
+        message.setMsgId(MsgId);
+        message.setCommand(strCommand);
+        connection.send(message);
+    }
+
+    public String getCommand() {
+        return Command;
+    }
+
+    public void setCommand(String Command) {
+        this.Command = Command;
+    }
+
+    public String getPayload() {
+        return Payload;
+    }
+
+    public void setPayload(String Payload) {
+        this.Payload = Payload;
+    }
+
+    private static String pad(int length) {
+        if (length < 0 || length > 9999) {
+            throw new IllegalArgumentException("out of range");
+        }
+        String s = Integer.toString(length);
+        s = ZEROS[4 - s.length()] + s;
+        return s;
+    }
+
+    private static String padMessageId(int length) {
+        if (length < 0 || length > 99) {
+            throw new IllegalArgumentException("out of range");
+        }
+        String s = Integer.toString(length);
+        s = ZEROS[2 - s.length()] + s;
+        return s;
+    }
+
+    public byte[] getFofRawMessage(String strHost, String strGuest) {
+        String strTimestamp = "";
+        if (strOldMsgId.equals("")) {
+            strOldMsgId = System.currentTimeMillis() / 1000 + "";
+            strTimestamp = strOldMsgId;
+        } else {
+            strTimestamp = System.currentTimeMillis() / 1000 + "";
+            if (!strOldMsgId.equals(strTimestamp)) {
+                msgCount = 0;
+            }
+        }
+        if(MsgId==null){
+            MsgId = strTimestamp + ":" + padMessageId(msgCount++);
+        }else if(MsgId.equals("")){
+            MsgId = strTimestamp + ":" + padMessageId(msgCount++);
+        }
+        String asciiLength = pad(getPayload().length());
+        String str = strHost + strGuest + getCommand()
+                + MsgId + asciiLength + getPayload();
+//ASCII representation
+        return (str).getBytes();
+    }
+    private static final String[] ZEROS = {"", "0", "00", "000", "0000"};
+
+    public String getMsdId() {
+        return MsgId;
+    }
+
+    public String getReceiver() {
+        return strGuest;
+    }
+
+    public String getSender() {
+        return strHost;
+    }
+
+    public void setMsgId(String MsgId) {
+        this.MsgId = MsgId;
+    }
+
+    public void setReceiver(String receiver) {
+        Message.strGuest=receiver;
+    }
+
+    public void setSender(String sender) {
+        Message.strHost=sender;
+    }
+
+     public static boolean chkValidSenderReceiver(Message message) {
+        String strSender = message.getSender();
+        String strReceiver = message.getReceiver();
+        if (strSender.equals("Sl") && strReceiver.equals("ST")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/76/trunk/CDMEStorageControl/src/fofprotocol
+END
+Startup.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/75/trunk/CDMEStorageControl/src/fofprotocol/Startup.java
+END
+ClientStorageControl.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/82/trunk/CDMEStorageControl/src/fofprotocol/ClientStorageControl.java
+END
+ServerStorageControl.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/84/trunk/CDMEStorageControl/src/fofprotocol/ServerStorageControl.java
+END

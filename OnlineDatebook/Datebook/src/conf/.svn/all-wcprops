@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/26/trunk/Datebook/src/conf
+END
+persistence.xml
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/26/trunk/Datebook/src/conf/persistence.xml
+END
+ApplicationResources.properties.bak
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/3/trunk/Datebook/src/conf/ApplicationResources.properties.bak
+END
+MANIFEST.MF
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/3/trunk/Datebook/src/conf/MANIFEST.MF
+END
+ApplicationResources.properties
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/3/trunk/Datebook/src/conf/ApplicationResources.properties
+END

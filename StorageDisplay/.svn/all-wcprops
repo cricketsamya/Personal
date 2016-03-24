@@ -1,0 +1,21 @@
+K 26
+svn:wc:ra_dav:activity-url
+V 14
+/svn/!svn/act/
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/88/trunk/StorageDisplay
+END
+manifest.mf
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/88/trunk/StorageDisplay/manifest.mf
+END
+build.xml
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/88/trunk/StorageDisplay/build.xml
+END

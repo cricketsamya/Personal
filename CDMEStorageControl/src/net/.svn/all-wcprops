@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/75/trunk/CDMEStorageControl/src/net
+END
+Connection.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/72/trunk/CDMEStorageControl/src/net/Connection.java
+END
+MessageIf.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3/trunk/CDMEStorageControl/src/net/MessageIf.java
+END
+Message.java
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/80/trunk/CDMEStorageControl/src/net/Message.java
+END
+ConnectionIf.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/71/trunk/CDMEStorageControl/src/net/ConnectionIf.java
+END

@@ -1,0 +1,127 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package fofprotocol;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.Connection;
+import net.Message;
+import net.MessageIf;
+import storagecontrol.beans.StorageBean;
+import storagecontrol.utility.Utility;
+
+/**
+ *
+ * This class is used to connect to the Control module.
+ * For the connection from control module the Storage-Control will act as a Server.
+ * @author Sameer
+ */
+public class ServerStorageControl {
+
+    private StorageBean storageBean;
+    private ClientStorageControl clientStorageControl;
+    private Connection connectionToControl;
+<<<<<<< .mine
+    public void start() throws Exception{
+=======
+
+    public void start() {
+>>>>>>> .r29
+<<<<<<< .mine
+        storageBean = new StorageBean();
+        while(true){
+                connectionToControl = new Connection("192.168.0.106", 9999, "la", "Sl");
+                MessageIf msg = null;
+                msg =  connectionToControl.receive();
+                Message message = ((Message) msg);
+                if (message.getCommand().endsWith("K005")) {
+                    String strRequirement = message.getPayload();
+//                    String strStorageTray = clientStorageControl.getPalletFromStorage(strRequirement);
+                }
+=======
+        storageBean = StorageBean.fillStorage();
+        while (true) {
+            try {
+                //            connectionToControl = new Connection(9999, "St", "Sl"); //Server side
+                connectionToControl = new Connection("192.168.0.105", 40002, "Sl", "ST");
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ServerStorageControl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            MessageIf msg = null;
+            msg = connectionToControl.receive();
+            Message message = ((Message) msg);
+            if (message.getCommand().endsWith("K001")) {//sumedh & Ashish
+            } else if (message.getCommand().endsWith("K002")) {//kedar & Thendral
+            } else if (message.getCommand().endsWith("K003")) {//Naresh & Chiru
+                message.ack("A001", "");
+                //String strRequirement = message.getPayload();
+                int nEmptyTrayCount = storageBean.getEmptyTrays();
+                message.ack("A002", Utility.pad3(nEmptyTrayCount));
+            } else if (message.getCommand().endsWith("K004")) {//Naresh & Chiru
+                message.ack("A001", "");
+                putStoragePallet(message.getPayload());
+                message.ack("A002", "");
+
+            } else if (message.getCommand().endsWith("K005")) {//sumedh & Ashish
+                String strRequirement = message.getPayload();
+//                String strStorageTray = clientStorageControl.getPalletFromStorage(strRequirement);
+            } else if (message.getCommand().endsWith("K006")) {//kedar & Thendral
+            } else {
+            }
+>>>>>>> .r29
+        }
+    }
+
+    private void putStoragePallet(String strRequirement) {
+
+        String StrPalletId = strRequirement.substring(0, 3);
+        String strPattern = strRequirement.substring(3);
+        char charColor = '-';
+        int nSmartieCount = 0;
+        if (strPattern.indexOf("r") > -1) {
+            charColor = 'r';
+        } else if (strPattern.indexOf("g") > -1) {
+            charColor = 'g';
+        } else if (strPattern.indexOf("b") > -1) {
+            charColor = 'b';
+        } else if (strPattern.indexOf("w") > -1) {
+            charColor = 'w';
+        } else if (strPattern.indexOf("y") > -1) {
+            charColor = 'y';
+        } else {
+            // TODO code Error Handling
+        }
+        for (int i = 0; i < strPattern.length(); i++) {
+            if (strPattern.charAt(i) == '-') {
+                nSmartieCount = nSmartieCount + 1;
+            }
+        }
+        nSmartieCount = 91 - nSmartieCount;//get Samrties count
+        storageBean.putPalletIntoStorage(StrPalletId, charColor, nSmartieCount, strPattern);
+        //TODO if following method send error msg
+        clientStorageControl.putPalletIntoStorage(StrPalletId);
+    }
+
+    public ClientStorageControl getClientStorageControl() {
+        return clientStorageControl;
+    }
+
+    public void setClientStorageControl(ClientStorageControl clientStorageControl) {
+        this.clientStorageControl = clientStorageControl;
+    }
+    public static void main(String[] args) throws Exception{
+        ServerStorageControl s = new ServerStorageControl();
+        s.start();
+    }
+
+<<<<<<< .mine
+=======
+    public static void main(String[] args) {
+        ServerStorageControl server = new ServerStorageControl();
+        server.start();
+    }
+>>>>>>> .r29
+}

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/165/trunk/Datebook/web/WEB-INF
+END
+sun-web.xml
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3/trunk/Datebook/web/WEB-INF/sun-web.xml
+END
+faces-config.xml
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/165/trunk/Datebook/web/WEB-INF/faces-config.xml
+END
+key.tmp
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/135/trunk/Datebook/web/WEB-INF/key.tmp
+END
+applicationContext.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/3/trunk/Datebook/web/WEB-INF/applicationContext.xml
+END
+web.xml
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3/trunk/Datebook/web/WEB-INF/web.xml
+END
+application.properties
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/3/trunk/Datebook/web/WEB-INF/application.properties
+END

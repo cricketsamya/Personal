@@ -1,0 +1,7 @@
+Server Connected to client 192.168.35.240. Data transfer started
+Select query from client : 192.168.35.240 for roll no : T1004 and Session : 0506
+Delete query from client : 192.168.35.240 : delete from stud_per where roll_no='T1010' and sess='0506'
+Insert query from client : 192.168.35.240 : insert into stud_per values('T1010','0506','asd','sdf','sfd','assaf','123213','assaf','123213','dsfsdfdsf','1/JAN/1975','',0)
+Insert query from client : 192.168.35.240 : insert into stud_acad values('T1010','0506',80,80,80,80,80,80,80,0,0,0,0,80.0,0)
+Insert query from client : 192.168.35.240 : insert into stud_extra values('T1010','0506','NIL','NIL','NIL')
+Connection Closed Client : 192.168.35.240

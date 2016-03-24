@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition>
+  <ul>
+                <li>
+                    <h2><h:outputLabel value="#{msg.User_TodaysEvent_Title}" /></h2>
+                    <ul>
+                        <h:outputLabel rendered="#{userloginhandler.listTodaysfilled}">
+                            <rich:dataList var="var" value="#{userloginhandler.lstTodaysEvents}">
+                                <li>@<h:outputText value="#{var.dtEventdate}" > 
+                                	<f:convertDateTime timeZone="GMT+2" type="time" pattern="HH:mm aaa"/>
+                                </h:outputText> 
+                                <h:outputText value=" - #{var.strEventdescription}" /></li>
+                            </rich:dataList>
+                        </h:outputLabel>
+
+                        <h:outputLabel rendered="#{!userloginhandler.listTodaysfilled}">
+                            <li><h:outputText value="#{msg.User_TodaysEvent_NoEvents}" /></li>
+                        </h:outputLabel>
+                    </ul>
+                </li>
+            </ul>
+	</ui:composition>
+
+</html>
+

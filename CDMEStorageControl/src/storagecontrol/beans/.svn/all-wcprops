@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/75/trunk/CDMEStorageControl/src/storagecontrol/beans
+END
+AckMessageBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/57/trunk/CDMEStorageControl/src/storagecontrol/beans/AckMessageBean.java
+END
+StorageBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/78/trunk/CDMEStorageControl/src/storagecontrol/beans/StorageBean.java
+END
+StoragePalletBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/78/trunk/CDMEStorageControl/src/storagecontrol/beans/StoragePalletBean.java
+END

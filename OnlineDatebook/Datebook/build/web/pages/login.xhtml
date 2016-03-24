@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:composition template="/templates/basic.xhtml">
+        <ui:param name="moduleTitle" value="#{msg.User_Login_Title}"></ui:param>
+        <ui:define name="body">
+            <div class="entry">
+                <p><strong><h:outputText value="#{msg.User_Login_Header}" /></strong> </p>
+
+                <h:outputText style="color: red" value="#{userloginhandler.loggedinUserDetails.strErrorMessage}" />
+                <h:outputText value="#{userRegistrationHandler.userdetails.strErrorMessage}" />
+                <h:outputText value="#{UserLogoutHandler.strLogoutMessage}"/>
+                <br></br>
+                <h:form>
+                    <rich:panel id="idContent" style="width: 400px">
+                        <h:panelGrid columns="2" width="100%">
+                            <h:outputLabel value="#{msg.User_Login_Email}" />
+                            <h:inputText value="#{userloginhandler.loggedinUserDetails.strEmailID}" size="40"
+                                         maxlength="80"/>
+                            <h:outputLabel value="#{msg.User_Login_Password}" />
+                            <h:inputSecret value="#{userloginhandler.loggedinUserDetails.strPassword}" size="40"
+                                           maxlength="80"/>
+                            <h:outputText value="" />
+                            <br/>
+                            <h:commandButton action="#{userloginhandler.login}" value="#{msg.User_Login_Action}"/>
+                        </h:panelGrid>
+                    </rich:panel>
+                    <br/>
+                    <p><strong><h:outputLabel value="#{msg.User_Login_RegisterFree}" /></strong> </p><h:outputLink
+                        value="#{controllerBean.contextPath}/pages/register.faces">
+                        <h:outputLabel value="#{msg.User_Login_RegisterNow}" />
+                    </h:outputLink>
+                    <h:messages style="color: red;"/>
+
+                </h:form>
+            </div>
+        </ui:define>
+
+
+    </ui:composition>
+</html>

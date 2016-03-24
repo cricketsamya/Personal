@@ -1,0 +1,443 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package fofprotocol;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.Connection;
+import net.Message;
+import net.MessageIf;
+import storagecontrol.beans.StorageBean;
+import storagecontrol.beans.StoragePalletBean;
+import storagecontrol.beans.AckMessageBean;
+import storagecontrol.utility.FofUtility;
+import storagecontrol.utility.Utility;
+
+/**
+ *
+ * This class is used to connect to the Control module.
+ * For the connection from control module the Storage-Control will act as a Server.
+ * @author Sameer
+ */
+public class ClientStorageControl extends Thread {
+
+    private StorageBean storageBean;
+    private ServerStorageControl serverStorageControl;
+    private Connection connectionToControl;
+    private String strLastInstuction = "";
+    private MessageIf objStoredMessage;
+
+    public void run() {
+        begin();
+    }
+
+    public void begin() {
+        //String strRefAck =
+        boolean isCycleComplete = FofUtility.checkCycleIsCompleteFromFile(FofUtility.INSTRUCTION_STORAGE_CONTROL_SEQUENCE_FILENAME);
+        String strPalletId = "";
+<<<<<<< .mine
+        AckMessageBean objAckMessage;//changed by Naresh to get the multiple return parameters
+        Message message = null;
+        Message msgCommand = new Message();
+        storageBean = StorageBean.deSerialzeStorageBean();
+=======
+        AckMessageBean objAckMessage = null;//changed by Naresh to get the multiple return parameters
+        //storageBean = StorageBean.deSerialzeStorageBean();
+>>>>>>> .r66
+        while (true) {
+            try {
+                //            connectionToControl = new Connection(9999, "St", "Sl"); //Server side
+                if (connectionToControl == null) {
+<<<<<<< .mine
+                    connectionToControl = new Connection("192.168.158.194", 40002, "Sl", "ST");
+                    if (!isCycleComplete) {
+                        String strFullInstruction = FofUtility.readLastInstructionFromFile(FofUtility.INSTRUCTION_STORAGE_CONTROL_SEQUENCE_FILENAME);
+                        String[] strArrTmp = strFullInstruction.split(":");
+                        strLastInstuction = strArrTmp[1];
+                        String strInstruction = strArrTmp[2];
+                        strInstruction = strInstruction + ":" + strArrTmp[3];
+//                        strPalletId = strArrTmp[2];
+                        try {
+                            objStoredMessage = Utility.messageSplitter(strInstruction);
+                        } catch (Exception ex) {
+                        }
+                        isCycleComplete = true;
+                    }
+=======
+                    connectionToControl = new Connection("192.168.157.155", 40002, "Sl", "ST");
+>>>>>>> .r66
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ClientStorageControl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            MessageIf msg = null;
+            if (strLastInstuction.equals("")) {
+                FofUtility.writeInstructionToFile("STSl:Receive:R1:0000", FofUtility.INSTRUCTION_STORAGE_CONTROL_SEQUENCE_FILENAME);
+            }
+            if (strLastInstuction.equals("R1") || strLastInstuction.equals("")) {
+                System.out.println("Waiting for instruction received..");
+                msg = connectionToControl.receive();
+                System.out.println("Instruction received..");
+                FofUtility.writeInstructionToFile("STSl:Receive:R2:" + Utility.messageGenerator((Message) msg), FofUtility.INSTRUCTION_STORAGE_CONTROL_SEQUENCE_FILENAME);
+                message = ((Message) msg);
+                msgCommand.setCommand(message.getCommand());
+                msgCommand.setPayload(message.getPayload());
+                msgCommand.setSender(message.getSender());
+                msgCommand.setMsgId(message.getMsdId());
+                msgCommand.setReceiver(message.getReceiver());
+                FofUtility.saveConnectionDetails(message, connectionToControl);
+                strLastInstuction = "";
+            } else {
+                message = (Message) objStoredMessage;
+                FofUtility.saveConnectionDetails(message, connectionToControl);
+            }
+            boolean bCheckValidCommunication = Message.chkValidSenderReceiver(message);
+            if (bCheckValidCommunication) {
+                if (strLastInstuction.equals("R2") || strLastInstuction.equals("")) {
+                    System.out.println("Sending Acknowledgement 1");
+                    message.ack("A001", "");
+                    System.out.println("Acknowledgement 1 Sent");
+                    FofUtility.writeInstructionToFile("STSl:Ack:A1:" + Utility.messageGenerator((Message) message), FofUtility.INSTRUCTION_STORAGE_CONTROL_SEQUENCE_FILENAME);
+                    strLastInstuction = "";
+                }
+                if (message.getCommand().endsWith("K001")) {//sumedh & Ashish
+                    try {
+                        char payload = message.getPayload().charAt(0);
+                        objAckMessage = getTotalNumberOfSmarties(payload);
+
+                        message.ack(objAckMessage.getStrCommand(), objAckMessage.getStrPayload());
+                        System.out.println("Acknowledgement 2 Sent");
+                        FofUtility.writeInstructionToFile("STSl:Ack:A2:" + Utility.messageGenerator((Message) message), FofUtility.INSTRUCTION_STORAGE_CONTROL_SEQUENCE_FILENAME);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                } else if (message.getCommand().endsWith("K002")) {//kedar & Thendral....
+                    storageBean = StorageBean.deSerialzeStorageBean();
+                    //objAckMessage=null;
+                    if (storageBean != null) {
+                        String strPayload = message.getPayload(); // Get Payload from message
+                        char chSmartieColor = strPayload.charAt(0); // Separate payload to get color
+                        String strRequestedSmartie = strPayload.substring(1); // Separate payload to get requested no. of smarties
+                        try {
+                            int intTotalSmarties = -1;
+                            int intRequestedSmarties = -1;
+                            switch (chSmartieColor) {
+                                case 'r':
+                                    intTotalSmarties = storageBean.getnTotalNumberOfRedSmarties(); // Get total no. of smarties in storage
+                                    intRequestedSmarties = Integer.parseInt(strRequestedSmartie);
+                                    objAckMessage = sendAcknowledementForK002(intRequestedSmarties, intTotalSmarties);
+                                    break;
+                                case 'g':
+                                    intTotalSmarties = storageBean.getnTotalNumberOfGreenSmarties();
+                                    intRequestedSmarties = Integer.parseInt(strRequestedSmartie);
+                                    objAckMessage = sendAcknowledementForK002(intRequestedSmarties, intTotalSmarties);
+                                    break;
+                                case 'b':
+                                    intTotalSmarties = storageBean.getnTotalNumberOfBlueSmarties();
+                                    intRequestedSmarties = Integer.parseInt(strRequestedSmartie);
+                                    objAckMessage = sendAcknowledementForK002(intRequestedSmarties, intTotalSmarties);
+                                    break;
+                                case 'y':
+                                    intTotalSmarties = storageBean.getnTotalNumberOfYellowSmarties();
+                                    intRequestedSmarties = Integer.parseInt(strRequestedSmartie);
+                                    objAckMessage = sendAcknowledementForK002(intRequestedSmarties, intTotalSmarties);
+                                    break;
+                                case 'w':
+                                    intTotalSmarties = storageBean.getnTotalNumberOfBrownSmarties();
+                                    intRequestedSmarties = Integer.parseInt(strRequestedSmartie);
+                                    objAckMessage = sendAcknowledementForK002(intRequestedSmarties, intTotalSmarties);
+                                    break;
+                                default:
+                                    objAckMessage = new AckMessageBean("F003", "");
+                            }
+                        } catch (NumberFormatException e) {
+                            // objAckMessage = new AckMessageBean("F004", "");
+                            //TODO
+                        }
+                    } else {
+                        //message.ack("F999", "");//fatel error
+                        objAckMessage = new AckMessageBean("F999", "");//fatel error
+                    }
+                    message.ack(objAckMessage.getStrCommand(), objAckMessage.getStrPayload());
+                    System.out.println("Acknowledgement 2 Sent");
+                    FofUtility.writeInstructionToFile("STSl:Ack:A2:" + Utility.messageGenerator((Message) message), FofUtility.INSTRUCTION_STORAGE_CONTROL_SEQUENCE_FILENAME);
+
+                } else if (message.getCommand().endsWith("K003")) {//Naresh & Chiru
+                    storageBean = StorageBean.deSerialzeStorageBean();
+                    if (storageBean != null) {
+                        int nEmptyTrayCount = storageBean.getEmptyTrays();
+                        message.ack("A002", Utility.pad3(nEmptyTrayCount));
+                        System.out.println("Acknowledgement 2 Sent");
+                    } else {
+                        message.ack("F999", "");//Fatel Error(if DeSerialze is not success)
+                        System.out.println("Acknowledgement 2 Sent");
+                    }
+                    FofUtility.writeInstructionToFile("STSl:Ack:A2:" + Utility.messageGenerator((Message) message), FofUtility.INSTRUCTION_STORAGE_CONTROL_SEQUENCE_FILENAME);
+
+                } else if (message.getCommand().endsWith("K004")) {//Naresh & Chiru
+                    objAckMessage = putStoragePallet(message.getPayload());
+                    message.ack(objAckMessage.getStrCommand(), objAckMessage.getStrPayload());
+                    System.out.println("Acknowledgement 2 Sent");
+                    FofUtility.writeInstructionToFile("STSl:Ack:A2:" + Utility.messageGenerator((Message) message), FofUtility.INSTRUCTION_STORAGE_CONTROL_SEQUENCE_FILENAME);
+                } else if (message.getCommand().endsWith("K005")) {//sumedh & Ashish
+                    try {
+                        String strRequirement = message.getPayload();
+                        objAckMessage = getPalletIdAndPatternFromStorage(strRequirement);
+                        message.ack(objAckMessage.getStrCommand(), objAckMessage.getStrPayload());
+                        System.out.println("Acknowledgement 2 Sent");
+                        FofUtility.writeInstructionToFile("STSl:Ack:A2:" + Utility.messageGenerator((Message) message), FofUtility.INSTRUCTION_STORAGE_CONTROL_SEQUENCE_FILENAME);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                } else if (message.getCommand().endsWith("K006")) {//kedar & Thendral                    
+                    FofUtility.writeInstructionToFile("STSl:Ack:A2:" + Utility.messageGenerator((Message) message), FofUtility.INSTRUCTION_STORAGE_CONTROL_SEQUENCE_FILENAME);
+                } else {
+                    message.ack("F000", ""); // Unknown command
+                    FofUtility.writeInstructionToFile("STSl:Ack:A2:" + Utility.messageGenerator((Message) message), FofUtility.INSTRUCTION_STORAGE_CONTROL_SEQUENCE_FILENAME);
+                }
+            } else {
+                message.ack("F000", "");//Unknown Command (Invalid Sender & Receiver)
+                FofUtility.writeInstructionToFile("STSl:Ack:A2:" + Utility.messageGenerator((Message) message), FofUtility.INSTRUCTION_STORAGE_CONTROL_SEQUENCE_FILENAME);
+            }
+            strLastInstuction = "";
+        }
+    }
+
+    private AckMessageBean putStoragePallet(String strRequirement) {
+        String StrPalletId = strRequirement.substring(0, 3);
+        String strPattern = strRequirement.substring(3);
+        char charColor = '-';
+        boolean bInvaidPattern = false;
+        int nSmartieCount = 0;
+        if (strPattern.indexOf("r") > -1) {
+            charColor = 'r';
+            bInvaidPattern = chkInvaidPattern("g", "b", "w", "y", strPattern);
+        } else if (strPattern.indexOf("g") > -1) {
+            charColor = 'g';
+            bInvaidPattern = chkInvaidPattern("r", "b", "w", "y", strPattern);
+        } else if (strPattern.indexOf("b") > -1) {
+            charColor = 'b';
+            bInvaidPattern = chkInvaidPattern("r", "g", "w", "y", strPattern);
+        } else if (strPattern.indexOf("w") > -1) {
+            charColor = 'w';
+            bInvaidPattern = chkInvaidPattern("r", "g", "b", "y", strPattern);
+        } else if (strPattern.indexOf("y") > -1) {
+            charColor = 'y';
+            bInvaidPattern = chkInvaidPattern("r", "g", "w", "b", strPattern);
+        }
+        for (int i = 0; i < strPattern.length(); i++) {
+            if (strPattern.charAt(i) == '-') {
+                nSmartieCount = nSmartieCount + 1;
+            }
+        }
+        nSmartieCount = 91 - nSmartieCount;//get Samrties count
+        if (nSmartieCount == 0) {
+            return (new AckMessageBean("F007", ""));//Empty Pallet
+        }
+        if (charColor == '-') {
+            return (new AckMessageBean("F003", ""));//Invalid color
+        }
+        if (bInvaidPattern) {
+            return (new AckMessageBean("F005", ""));//Invalid Pattern
+        }
+
+        String strAck2 = "";
+        storageBean = StorageBean.deSerialzeStorageBean();
+        if (storageBean != null) {
+            strAck2 = storageBean.putPalletIntoStorage(StrPalletId, charColor, nSmartieCount, strPattern);
+            boolean isSuccess = false;
+            isSuccess = serverStorageControl.storagePalletOperation(StrPalletId, 1);
+            if (!isSuccess) {//From Storage to Storage control
+                return (new AckMessageBean("F008", ""));//Mechanical error
+            }
+            if (StorageBean.serialzeStorageBean(storageBean)) {
+                return (new AckMessageBean(strAck2, ""));
+            } else {
+                return (new AckMessageBean("F999", ""));//Fatel Error(if serialze is not success)
+            }
+
+        } else {
+            return (new AckMessageBean("F999", ""));//Fatel Error(if deserialze is not success)
+        }
+
+
+
+    }
+
+    private boolean chkInvaidPattern(String color1, String color2, String color3, String color4, String Pattern) {
+        if (Pattern.indexOf(color1) > -1 || Pattern.indexOf(color2) > -1 || Pattern.indexOf(color3) > -1 || Pattern.indexOf(color4) > -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public ServerStorageControl getServerStorageControl() {
+        return serverStorageControl;
+    }
+
+    public void setServerStorageControl(ServerStorageControl serverStorageControl) {
+        this.serverStorageControl = serverStorageControl;
+    }
+
+    public static void main(String[] args) throws Exception {
+        ClientStorageControl s = new ClientStorageControl();
+        s.begin();
+    }
+
+    private AckMessageBean getTotalNumberOfSmarties(char payload) {
+        int iTotalSmarties = -1;
+        storageBean = StorageBean.deSerialzeStorageBean();
+        if (storageBean != null) {
+            switch (payload) {
+                case 'r':
+                    iTotalSmarties = storageBean.getnTotalNumberOfRedSmarties();// Get Total Red Smarties
+                    break;
+                case 'g':
+                    iTotalSmarties = storageBean.getnTotalNumberOfGreenSmarties();// Get Total Green Smarties
+                    break;
+                case 'b':
+                    iTotalSmarties = storageBean.getnTotalNumberOfBlueSmarties();// Get Total Blue Smarties
+                    break;
+                case 'y':
+                    iTotalSmarties = storageBean.getnTotalNumberOfYellowSmarties();// Get Total Yellow Smarties
+                    break;
+                case 'w':
+                    iTotalSmarties = storageBean.getnTotalNumberOfBrownSmarties();// Get Total Brown Smarties
+                    break;
+                default:
+                    //TODO
+                    return (new AckMessageBean("F999", ""));// Fatal error if object is not deserliazed
+            }
+            if (StorageBean.serialzeStorageBean(storageBean)) {
+                return (new AckMessageBean("A002", Utility.pad3(iTotalSmarties)));
+            } else {
+                return (new AckMessageBean("F999", ""));//Fatel Error(if serialze is not success)
+            }
+        } else {
+            return (new AckMessageBean("F999", ""));// Fatal error if object is not deserliazed
+        }
+
+
+    }
+
+    private AckMessageBean retrievePallete(String strRequestedSmartieColor, String strRequestedSmarties) {
+        StoragePalletBean objStoragePalletBean = null;
+<<<<<<< .mine
+        if (Integer.parseInt(strRequestedSmarties) < storageBean.getnTotalNumberOfRedSmarties() && Integer.parseInt(strRequestedSmarties) > 0) {
+            String strPalletIdAndPattern = storageBean.getPalletIdAndPattern(strRequestedSmartieColor);
+            if (serverStorageControl.storagePalletOperation(strPalletIdAndPattern.substring(0, 3), 2)) {
+                objStoragePalletBean = new StoragePalletBean();
+                objStoragePalletBean.setStrPalletId("-");
+                objStoragePalletBean.setStrSmartieColor("");
+                objStoragePalletBean.setStrStoragePallet("");
+                objStoragePalletBean.setnSmartieCount(0);
+                if (strRequestedSmartieColor.equals("r")) {
+                    storageBean.setnTotalNumberOfRedSmarties(storageBean.getnTotalNumberOfRedSmarties() - Integer.parseInt(strRequestedSmarties));
+                } else if (strRequestedSmartieColor.equals("g")) {
+                    storageBean.setnTotalNumberOfRedSmarties(storageBean.getnTotalNumberOfGreenSmarties() - Integer.parseInt(strRequestedSmarties));
+                } else if (strRequestedSmartieColor.equals("y")) {
+                    storageBean.setnTotalNumberOfRedSmarties(storageBean.getnTotalNumberOfYellowSmarties() - Integer.parseInt(strRequestedSmarties));
+                } else if (strRequestedSmartieColor.equals("b")) {
+                    storageBean.setnTotalNumberOfRedSmarties(storageBean.getnTotalNumberOfBlueSmarties() - Integer.parseInt(strRequestedSmarties));
+                } else if (strRequestedSmartieColor.equals("w")) {
+                    storageBean.setnTotalNumberOfRedSmarties(storageBean.getnTotalNumberOfBrownSmarties() - Integer.parseInt(strRequestedSmarties));
+=======
+        storageBean = StorageBean.deSerialzeStorageBean();
+        if (storageBean != null) {
+            int iTotalSmarties = findTotalRequestedColourSmarties(storageBean,strRequestedSmartieColor);
+            if (Integer.parseInt(strRequestedSmarties) <= iTotalSmarties && Integer.parseInt(strRequestedSmarties) > 0) {
+                objStoragePalletBean = storageBean.getPalletIdAndPattern(strRequestedSmartieColor);
+                if (serverStorageControl.getPalletFromStorage(objStoragePalletBean.getStrPalletId().substring(0, 3))) {
+                    //objStoragePalletBean = new StoragePalletBean();
+                    switch (strRequestedSmartieColor.charAt(0)) {
+                        case 'r':
+                            storageBean.setnTotalNumberOfRedSmarties(storageBean.getnTotalNumberOfRedSmarties() - objStoragePalletBean.getnSmartieCount());
+                            break;
+                        case 'g':
+                            storageBean.setnTotalNumberOfGreenSmarties(storageBean.getnTotalNumberOfGreenSmarties() - objStoragePalletBean.getnSmartieCount());
+                            break;
+                        case 'y':
+                            storageBean.setnTotalNumberOfYellowSmarties(storageBean.getnTotalNumberOfYellowSmarties() - objStoragePalletBean.getnSmartieCount());
+                            break;
+                        case 'b':
+                            storageBean.setnTotalNumberOfBlueSmarties(storageBean.getnTotalNumberOfBlueSmarties() - objStoragePalletBean.getnSmartieCount());
+                            break;
+                        case 'w':
+                            storageBean.setnTotalNumberOfBrownSmarties(storageBean.getnTotalNumberOfBrownSmarties() - objStoragePalletBean.getnSmartieCount());
+                            break;
+                        default:
+                        //We shouldn't be here
+                        //TODO
+                        //return (new AckMessageBean("F999", ""));//Fatel Error(if serialze is not success)
+                    }
+                    String strPaletteIdAndPattern = objStoragePalletBean.getStrPalletId() + objStoragePalletBean.getStrStoragePallet() + "";
+                    objStoragePalletBean.setStrPalletId("-");
+                    objStoragePalletBean.setStrSmartieColor("");
+                    objStoragePalletBean.setStrStoragePallet("");
+                    objStoragePalletBean.setnSmartieCount(0);
+                    if (StorageBean.serialzeStorageBean(storageBean)) {
+                        return (new AckMessageBean("A002", strPaletteIdAndPattern));
+                    } else {
+                        return (new AckMessageBean("F999", ""));//Fatel Error(if serialze is not success)
+                    }
+>>>>>>> .r66
+                } else {
+                    return (new AckMessageBean("F011", ""));//Mechanical error
+                }
+            } else {
+                if (Integer.parseInt(strRequestedSmarties) < 0) {
+                    return (new AckMessageBean("F004", ""));//Invalid amount
+                } else {
+                    return (new AckMessageBean("F010", ""));//Not enough smarties in storage
+                }
+            }
+        } else {
+            return (new AckMessageBean("F999", ""));// Fatal error if object is not deserliazed
+        }
+    }
+
+    private AckMessageBean getPalletIdAndPatternFromStorage(String strRequirement) {
+        String strRequestedSmartieColor = strRequirement.substring(0, 1);
+        String strRequestedSmarties = strRequirement.substring(1);
+        String strColor = "rgbwy";
+        if (strColor.contains(strRequestedSmartieColor)) {
+            return retrievePallete(strRequestedSmartieColor, strRequestedSmarties);
+        } else {
+            return (new AckMessageBean("F003", ""));//Invalid colour
+        }
+    }
+
+    private AckMessageBean sendAcknowledementForK002(int intRequestedSmarties, int intTotalSmarties) {
+
+        if (intRequestedSmarties <= intTotalSmarties && intRequestedSmarties > 0) {
+            return (new AckMessageBean("A002", ""));
+        } else if (intRequestedSmarties <= 0 ) {
+            return (new AckMessageBean("F004", ""));
+        } else {
+            return (new AckMessageBean("F002", intTotalSmarties + ""));
+        }
+    }
+
+    private int findTotalRequestedColourSmarties(StorageBean storageBean, String strRequestedSmartieColor) {
+        int iTotalSmarties=-1;
+        switch (strRequestedSmartieColor.charAt(0)) {
+            case 'r':
+                return iTotalSmarties=storageBean.getnTotalNumberOfRedSmarties();
+            case 'g':
+                return iTotalSmarties=storageBean.getnTotalNumberOfGreenSmarties();
+            case 'y':
+                return iTotalSmarties=storageBean.getnTotalNumberOfYellowSmarties();
+            case 'b':
+                return iTotalSmarties=storageBean.getnTotalNumberOfBlueSmarties();
+            case 'w':
+                return iTotalSmarties=storageBean.getnTotalNumberOfBrownSmarties();
+            default:
+            //We shouldn't be here
+            //TODO
+            return iTotalSmarties;
+        }
+    }
+}

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Shamim Ahmmed
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:rich="http://richfaces.org/rich">
+
+    <ui:composition template="/templates/basic.xhtml">
+        <ui:param name="moduleTitle" value="#{msg.User_Dashboard_Title}"></ui:param>
+            <ui:define name="leftBar">
+				<ui:include src="/templates/include/todayevent.xhtml" />
+
+            </ui:define>
+        <ui:define name="body">
+            <a4j:outputPanel layout="block" style="margin-left: 10px;">
+                <h:form id="form" rendered="#{userloginhandler.logged}">
+
+
+                    <rich:messages/>
+                    <h:outputLabel rendered="#{!userloginhandler.logged}">
+                        <h:outputText value="#{msg.User_Dashboard_LoginRequest}"/>
+                    </h:outputLabel>
+                    <rich:calendar value="#{calendarBean.selectedDate}" mode="ajax"
+                                   locale="#{calendarBean.locale}"
+                                   popup="false" showApplyButton="false" showHeader="true" showFooter="false"
+                                   cellWidth="105px" cellHeight="90px"  boundaryDatesMode="none" showWeeksBar="false"
+                                   ajaxSingle="false"
+                                   datePattern="#{calendarBean.pattern}"
+                                   dataModel="#{calendarDataModel}"
+                                   valueChangeListener="#{calendarDataModel.valueChanged}"
+                                   showWeekDaysBar="false"
+                                   >
+
+
+
+                        <a4j:outputPanel layout="block" id="cell" onclick="#{rich:component('organizer')}.resetSelectedDate()" style="height: 100%;" styleClass="organizer-cell">
+                            <div>
+                                <h:outputText value="{day}" />
+                            </div>
+                            <div>&#xA0;</div>
+                            <div>
+
+
+                                <h:commandLink  action="#{displayeventhandler.loadAllEvent}" value="{data.shortDescription.escapeHTML()}" >
+                                    <f:param name="prmDate" value="{data.date.escapeHTML()}"/>
+                                </h:commandLink>
+
+                            </div>
+
+
+                        </a4j:outputPanel>
+
+                    </rich:calendar>
+
+
+                </h:form>
+
+            </a4j:outputPanel>
+        </ui:define>
+
+
+    </ui:composition>
+</html>

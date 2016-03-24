@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition>
+
+        <rich:modalPanel id="idEventDialog" minHeight="390" minWidth="470" >
+            <f:facet name="header"><h:outputText value="#{msg.User_EventDialog_Title}"/></f:facet>
+            <f:facet name="controls">
+                <h:graphicImage value="/images/close.png" style="cursor:pointer" onclick="Richfaces.hideModalPanel('idEventDialog')" />
+            </f:facet>
+
+            <a4j:form id="memberStoryForm" >
+                <h:inputHidden  id="errorCount"/>
+
+                <rich:panel styleClass="popup_window_outer_panel_style" id="idPopupPanel">
+
+                    <h:outputLabel style="color: red;" rendered="#{weeklyViewHandler.auto}" value="#{msg.User_EventDialog_AutoGenMsg}"/>
+                    <h:panelGrid columns="3" width="100%">
+                        <h:outputLabel value="#{msg.User_EventDialog_GetTimeDate}"/>
+                        <rich:calendar value="#{weeklyViewHandler.currEvent.dtEventdate}" readonly="#{weeklyViewHandler.currEvent.readOnly}"
+                                       datePattern="dd-MM-yyyy HH:mm"/>
+                        <br></br><br></br>
+                        <h:outputLabel value="#{msg.User_EventDialog_GetType}"/>
+                        <h:selectOneMenu disabled="#{weeklyViewHandler.currEvent.readOnly}" value="#{weeklyViewHandler.currEvent.intEventTypeID.intEventtypeID}">
+                            <f:selectItems value="#{displayeventhandler.lstEventList}" />
+                        </h:selectOneMenu><br></br>
+
+                        <h:outputLabel value="#{msg.User_EventDialog_GetDesc}"/>
+                        <h:inputText readonly="#{weeklyViewHandler.currEvent.readOnly}" value="#{weeklyViewHandler.currEvent.strEventdescription}" size="40" maxlength="80"/><br></br>
+
+                        <h:outputLabel value="#{msg.User_EventDialog_GetFreq}"/>
+                        <h:selectOneRadio disabled="#{weeklyViewHandler.currEvent.readOnly}" value="#{weeklyViewHandler.currEvent.intFrequencyID.intFrequencyID}">
+                            <f:selectItems value="#{displayeventhandler.lstmyRadioPossibleOptions}"/>
+                        </h:selectOneRadio>
+                        <br></br>
+
+                        <h:outputLabel value="#{msg.User_EventDialog_GetComment}"/>
+                        <h:inputTextarea value="#{weeklyViewHandler.currEvent.strComments}" rows="10" cols="40"/><br></br>
+
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="1"  width="100%" columnClasses="col_class">
+                        <h:panelGroup>
+                            <h:commandButton action="#{weeklyViewHandler.updateEvent}" value="#{msg.User_EventDialog_Update}"/>
+                            <h:commandButton value="#{msg.User_EventDialog_Close}" onclick="Richfaces.hideModalPanel('idEventDialog')" />
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </rich:panel>
+            </a4j:form>
+        </rich:modalPanel>
+
+    </ui:composition>
+</html>

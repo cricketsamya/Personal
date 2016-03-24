@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/165/trunk/Datebook/src/java/de/fhhof/datebook/event/dao
+END
+EventfrequencyDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/165/trunk/Datebook/src/java/de/fhhof/datebook/event/dao/EventfrequencyDao.java
+END
+EventTypeDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/165/trunk/Datebook/src/java/de/fhhof/datebook/event/dao/EventTypeDao.java
+END
+EventTypeDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/165/trunk/Datebook/src/java/de/fhhof/datebook/event/dao/EventTypeDaoImpl.java
+END
+EventfrequencyImplDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/165/trunk/Datebook/src/java/de/fhhof/datebook/event/dao/EventfrequencyImplDao.java
+END
+EventDetailsDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/147/trunk/Datebook/src/java/de/fhhof/datebook/event/dao/EventDetailsDao.java
+END
+EventDetailsDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/148/trunk/Datebook/src/java/de/fhhof/datebook/event/dao/EventDetailsDaoImpl.java
+END

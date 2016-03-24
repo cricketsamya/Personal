@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Shamim Ahmmed
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:rich="http://richfaces.org/rich">
+
+    <ui:composition template="/templates/adminbasic.xhtml">
+        <ui:param name="moduleTitle" value="#{msg.Admin_Dashboard_Title}"></ui:param>
+        <ui:define name="body">
+            <a4j:outputPanel layout="block" style="margin-left: 10px;">
+                <!--<h:form id="form" rendered="#{userloginhandler.logged}">-->
+                        <h:form id="formEventType" rendered="#{userloginhandler.flagTypeListEmpty}">
+                        <h:commandButton action="#{userloginhandler.generateEventTypeTable}" value="#{msg.Admin_Dashboard_ButtonType}"/>
+                    </h:form>
+                    <h:form rendered="#{!userloginhandler.flagTypeListEmpty}">
+                        <h:outputLabel value="#{msg.Admin_Dashboard_Type}" />
+                    </h:form>
+                    <h:form id="formEventFrequency" rendered="#{userloginhandler.flagFrequencyListEmpty}">
+                         <h:commandButton action="#{userloginhandler.generateEventFrequencyTable}" value="#{msg.Admin_Dashboard_ButtonFreq}"/>
+                    </h:form>
+                    <h:form rendered="#{!userloginhandler.flagFrequencyListEmpty}">
+                        <h:outputLabel value="#{msg.Admin_Dashboard_Freq}" />
+                    </h:form>
+                <!--</h:form>-->
+
+            </a4j:outputPanel>
+        </ui:define>
+
+
+    </ui:composition>
+</html>

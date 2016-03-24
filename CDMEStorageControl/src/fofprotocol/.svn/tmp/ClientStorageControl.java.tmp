@@ -1,0 +1,217 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package fofprotocol;
+
+import businesslogic.test;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.Connection;
+import net.Message;
+import net.MessageIf;
+import storagecontrol.beans.StorageBean;
+import storagecontrol.beans.StoragePalletBean;
+import storagecontrol.utility.FofUtility;
+import storagecontrol.utility.Utility;
+
+/**
+ *
+ * This class is used to connect to the Control module.
+ * For the connection from control module the Storage-Control will act as a Server.
+ * @author Sameer
+ */
+public class ClientStorageControl extends Thread {
+
+    private StorageBean storageBean;
+    private ServerStorageControl serverStorageControl;
+    private Connection connectionToControl;
+
+    public void run() {
+        begin();
+    }
+
+    public void begin() {
+        storageBean = StorageBean.fillStorage();
+        while (true) {
+            try {
+<<<<<<< .mine
+                //            connectionToControl = new Connection(9999, "St", "Sl"); //Server side
+                if (connectionToControl == null) {
+                    connectionToControl = new Connection("192.168.56.1", 40002, "Sl", "ST");
+                }
+=======
+                //connectionToControl = new Connection(9999, "St", "Sl"); //Server side
+                connectionToControl = new Connection("192.168.0.103", 9999, "Sl", "ST");
+>>>>>>> .r36
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ClientStorageControl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            MessageIf msg = null;
+            msg = connectionToControl.receive();
+            Message message = ((Message) msg);
+            FofUtility.saveConnectionDetails(message, connectionToControl);
+            if (message.getCommand().endsWith("K001")) {//sumedh & Ashish
+                boolean chkflag = Message.chkValidSenderReceiver(message);
+                if (chkflag) {
+                    String payload = message.getPayload();
+                    getTotalNumberOfSmarties(payload, message);
+                } else {
+                    message.ack("F000", "");
+                }
+            } else if (message.getCommand().endsWith("K002")) {//kedar & Thendral
+            } else if (message.getCommand().endsWith("K003")) {//Naresh & Chiru
+                message.ack("A001", "");
+                //String strRequirement = message.getPayload();
+                int nEmptyTrayCount = storageBean.getEmptyTrays();
+                message.ack("A002", Utility.pad3(nEmptyTrayCount));
+            } else if (message.getCommand().endsWith("K004")) {//Naresh & Chiru
+                message.ack("A001", "");
+                putStoragePallet(message.getPayload());
+                message.ack("A002", "");
+
+            } else if (message.getCommand().endsWith("K005")) {//sumedh & Ashish
+                boolean chkflag = Message.chkValidSenderReceiver(message);
+                if (chkflag) {
+                    String strRequirement = message.getPayload();
+                    getPalletIdAndPatternFromStorage(strRequirement, message);
+                } else {
+                    message.ack("F000", ""); //invalid sender and receiver
+                }
+            } else if (message.getCommand().endsWith("K006")) {//kedar & Thendral
+            } else {
+            }
+        }
+    }
+
+    private void putStoragePallet(String strRequirement) {
+
+        String StrPalletId = strRequirement.substring(0, 3);
+        String strPattern = strRequirement.substring(3);
+        char charColor = '-';
+        int nSmartieCount = 0;
+        if (strPattern.indexOf("r") > -1) {
+            charColor = 'r';
+        } else if (strPattern.indexOf("g") > -1) {
+            charColor = 'g';
+        } else if (strPattern.indexOf("b") > -1) {
+            charColor = 'b';
+        } else if (strPattern.indexOf("w") > -1) {
+            charColor = 'w';
+        } else if (strPattern.indexOf("y") > -1) {
+            charColor = 'y';
+        } else {
+            // TODO code Error Handling
+        }
+        for (int i = 0; i < strPattern.length(); i++) {
+            if (strPattern.charAt(i) == '-') {
+                nSmartieCount = nSmartieCount + 1;
+            }
+        }
+        nSmartieCount = 91 - nSmartieCount;//get Samrties count
+        storageBean.putPalletIntoStorage(StrPalletId, charColor, nSmartieCount, strPattern);
+        //TODO if following method send error msg
+        serverStorageControl.putPalletIntoStorage(StrPalletId);
+    }
+
+    public ServerStorageControl getServerStorageControl() {
+        return serverStorageControl;
+    }
+
+    public void setServerStorageControl(ServerStorageControl serverStorageControl) {
+        this.serverStorageControl = serverStorageControl;
+    }
+
+    public static void main(String[] args) throws Exception {
+        ClientStorageControl s = new ClientStorageControl();
+        s.start();
+    }
+
+    public void getTotalNumberOfSmarties(String payload, Message message) {
+        String strTotalCount = "";
+        if (payload.equals("r")) {
+            int iToatlRedSmarties = storageBean.getnTotalNumberOfRedSmarties();// Get Total Red Smarties
+            System.out.println(iToatlRedSmarties);
+            strTotalCount = Integer.toString(iToatlRedSmarties);
+            message.ack("A001", "");
+            message.ack("A002", Utility.pad3(Integer.parseInt(strTotalCount)));
+        } else if (payload.equals("g")) {
+            int iToatlRedSmarties = storageBean.getnTotalNumberOfGreenSmarties();// Get Total Green Smarties
+            System.out.println(iToatlRedSmarties);
+            strTotalCount = Integer.toString(iToatlRedSmarties);
+            message.ack("A001", "");
+            message.ack("A002", Utility.pad4(Integer.parseInt(strTotalCount)));
+        } else if (payload.equals("y")) {
+            int iToatlRedSmarties = storageBean.getnTotalNumberOfYellowSmarties();// Get Total Yellow Smarties
+            System.out.println(iToatlRedSmarties);
+            strTotalCount = Integer.toString(iToatlRedSmarties);
+            message.ack("A001", "");
+            message.ack("A002", Utility.pad4(Integer.parseInt(strTotalCount)));
+        } else if (payload.equals("b")) {
+            int iToatlRedSmarties = storageBean.getnTotalNumberOfBlueSmarties();// Get Total Blue Smarties
+            System.out.println(iToatlRedSmarties);
+            strTotalCount = Integer.toString(iToatlRedSmarties);
+            message.ack("A001", "");
+            message.ack("A002", Utility.pad4(Integer.parseInt(strTotalCount)));
+        } else if (payload.equals("w")) {
+            int iToatlRedSmarties = storageBean.getnTotalNumberOfBrownSmarties();// Get Total Brown Smarties
+            System.out.println(iToatlRedSmarties);
+            strTotalCount = Integer.toString(iToatlRedSmarties);
+            message.ack("A001", "");
+            message.ack("A002", Utility.pad4(Integer.parseInt(strTotalCount)));
+        }
+    }
+
+<<<<<<< .mine
+    public void retrievePallete(String strRequestedSmartieColor, String strRequestedSmarties, Message message) {
+        StoragePalletBean objStoragePalletBean = null;
+=======
+    public void retrievePallete(String strRequestedSmartieColor, String strRequestedSmarties, Message message) {
+>>>>>>> .r36
+        if (Integer.parseInt(strRequestedSmarties) < storageBean.getnTotalNumberOfRedSmarties() && Integer.parseInt(strRequestedSmarties) > 0) {
+            String strPalletIdAndPattern = storageBean.getPalletIdAndPattern(strRequestedSmartieColor);
+            if (serverStorageControl.getPalletFromStorage(strPalletIdAndPattern.substring(0, 3))) {
+                objStoragePalletBean = new StoragePalletBean();
+                objStoragePalletBean.setStrPalletId("-");
+                objStoragePalletBean.setStrSmartieColor("");
+                objStoragePalletBean.setStrStoragePallet("");
+                objStoragePalletBean.setnSmartieCount(0);
+                message.ack("A001", "");
+                message.ack("A002", strPalletIdAndPattern);
+                test.writeToFile(storageBean);
+            } else {
+                message.ack("A001", "");
+                message.ack("F011", "0000"); // Mechanical Error
+            }
+        } else if (Integer.parseInt(strRequestedSmarties) < 0) {
+            message.ack("A001", "");
+            message.ack("F004", "");//Invalid amount
+        } else {
+            message.ack("A001", "");
+            message.ack("F010", "");//not enough snarties in storage
+        }
+    }
+
+    public void getPalletIdAndPatternFromStorage(String strRequirement, Message message) {
+        String strRequestedSmartieColor = strRequirement.substring(0, 1);
+        String strRequestedSmarties = strRequirement.substring(1);
+        if (strRequestedSmartieColor.equals("r")) {
+            retrievePallete(strRequestedSmartieColor, strRequestedSmarties, message);
+        } else if (strRequestedSmartieColor.equals("g")) {
+            retrievePallete(strRequestedSmartieColor, strRequestedSmarties, message);
+        } else if (strRequestedSmartieColor.equals("y")) {
+            retrievePallete(strRequestedSmartieColor, strRequestedSmarties, message);
+        } else if (strRequestedSmartieColor.equals("b")) {
+            retrievePallete(strRequestedSmartieColor, strRequestedSmarties, message);
+        } else if (strRequestedSmartieColor.equals("w")) {
+            retrievePallete(strRequestedSmartieColor, strRequestedSmarties, message);
+        } else {
+            message.ack("F003", ""); //invalid colour
+        }
+    }
+<<<<<<< .mine
+//    
+}
+=======
+}
+>>>>>>> .r36

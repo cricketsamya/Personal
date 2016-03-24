@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!--/**
+ *
+ * @author Sumedh
+ */-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+
+    <ui:composition template="/templates/basic.xhtml">
+
+        <ui:param name="moduleTitle" value="Delete Events"></ui:param>
+        <ui:define name="leftBar">
+            <ul>
+                <li>
+                    <h2>Today's Events</h2>
+                    <ul>
+                        <h:outputLabel rendered="#{userloginhandler.listTodaysfilled}">
+                            <rich:dataList var="var" value="#{userloginhandler.lstTodaysEvents}">
+                                <li>@<h:outputText value="#{var.strTime} - " />  <h:outputText value="#{var.strEventdescription}" /></li>
+                            </rich:dataList>
+                        </h:outputLabel>
+
+                        <h:outputLabel rendered="#{!userloginhandler.listTodaysfilled}">
+                            <li><h:outputText value="No events" /></li>
+                        </h:outputLabel>
+                    </ul>
+                </li>
+            </ul>
+
+        </ui:define>
+
+        <ui:define name="body">
+            <a4j:outputPanel layout="block" style="margin-left: 10px;">
+                <h:outputLabel value="#{deleteeventhandler.eventdetails.strErrorMessage}" />
+                <h:form>
+                    <table><tr><td colspan="2">
+                                <h:outputLabel value="Choose the Event Category..."></h:outputLabel><br/>
+                            </td></tr>
+                        <tr><td>
+                                <h:selectOneMenu value="#{deleteeventhandler.strEventType}">
+                                    <f:selectItems value="#{deleteeventhandler.lstEventList}" />
+                                </h:selectOneMenu>
+                            </td>
+                            <td>
+                                <h:commandButton action="#{deleteeventhandler.fetchEvents}" value="Fetch Events" image="/images/find-36.png" align="middle" border="0"></h:commandButton>                              
+                            </td>
+                        </tr>
+                    </table>
+
+                </h:form>
+
+                <br></br>
+
+                <h:form id="datatable" rendered="#{deleteeventhandler.listfilled}">
+                    <br></br>
+                    <rich:dataTable id="idDataGrid"  width="100%"  rowClasses=",container_even_row_style" rows="5"  columnsWidth="100,,150"
+                                    var="item" value="#{deleteeventhandler.lstFetchedEventDetails}" headerClass="table_column_style"
+                                    cellpadding="0" cellspacing="0" >
+                        <rich:column>
+                            <f:facet name="header">
+                                <h:outputText value="Date"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dtEventdate}"></h:outputText>
+                        </rich:column>
+                        <rich:column>
+                            <f:facet name="header">
+                                <h:outputText value="Description"/>
+                            </f:facet>
+                            <h:outputText value="#{item.strEventdescription}"></h:outputText>
+                        </rich:column>
+                        <rich:column>
+                            <f:facet name="header">
+                                <h:outputText value="Comment"/>
+                            </f:facet>
+                            <h:outputText value="#{item.strComments}"></h:outputText>
+                        </rich:column>
+                        <rich:column>
+                            <f:facet name="header">
+                                <h:outputText value="Frequency"/>
+                            </f:facet>
+                            <h:outputText value="#{item.intFrequencyID.strFrequencydescription}"></h:outputText>
+                        </rich:column>
+                        <rich:column>
+                            <f:facet name="header">
+                                <h:outputText value="Action"/>
+                            </f:facet>
+                            <rich:spacer width="15"/>
+                            
+                            <h:commandLink  actionListener="#{displayeventhandler.getEventDetailsByID}">
+                                <f:attribute name="eventid" value="#{item.intEventID}" />
+
+                                <h:graphicImage value="/images/edit.png" align="middle" border="0" >
+                                </h:graphicImage>
+                                <rich:toolTip styleClass="tooltips_style"  >
+                                    <span class="tooltips_span_style">
+						             Edit this event<br/>
+                                    </span>
+                                </rich:toolTip>
+                            <!--</a4j:commandLink>-->
+                            </h:commandLink>
+                            <rich:spacer width="15"/>
+                            
+                            <h:commandLink  actionListener="#{deleteeventhandler.deleteEvent}">
+                                <!--onclick="if(!confirm('Are you sure you want to delete this record?'))return false;"-->
+                                <f:attribute name="intEventID" value="#{item.intEventID}" />
+                                <h:graphicImage value="/images/delete.png" align="middle" border="0" >
+                                </h:graphicImage>
+                                <rich:toolTip styleClass="tooltips_style"  >
+                                    <span class="tooltips_span_style">
+						              Delete this event<br/>
+                                    </span>
+                                </rich:toolTip>
+                      <!--      </a4j:commandLink>-->
+                            </h:commandLink>
+                        </rich:column>
+                    </rich:dataTable>
+                    <rich:datascroller id="idDataScroller" align="center"  for="idDataGrid" maxPages="5" />
+                    <br></br>
+                    <rich:panel id="idContent">
+                        <h:panelGrid columns="3" width="100%">
+                            <h:outputLabel value="Enter Date - Time"/>
+                            <rich:calendar value="#{displayeventhandler.dtEventDate}"
+                                           datePattern="dd/MM/yyyy HH:mm"/>
+                            <br></br><br></br>
+                            <h:outputLabel value="Select Type"/>
+                            <h:selectOneMenu value="#{displayeventhandler.strEventType}">
+                                <f:selectItems value="#{displayeventhandler.lstEventList}" />
+                            </h:selectOneMenu><br></br>
+                            <h:outputLabel value="Enter Description"/>
+                            <h:inputText value="#{displayeventhandler.eventdetails.strEventdescription}" size="40" maxlength="80"/><br></br>
+                            <h:outputLabel value="Select Frequency"/>
+                            <h:selectOneRadio value="#{displayeventhandler.strEventFrequeny}">
+                                <f:selectItems value="#{displayeventhandler.lstmyRadioPossibleOptions}"/>
+                            </h:selectOneRadio>
+                            <br></br>
+                            <h:outputLabel value="Enter Comment"/>
+                            <h:inputTextarea value="#{displayeventhandler.eventdetails.strComments}" rows="10" cols="40"/><br></br>
+                            <h:commandButton action="#{displayeventhandler.updateEvent}" value="Update Event"/>
+                        </h:panelGrid>
+                    </rich:panel>
+                </h:form>
+                <br></br>
+                <br></br>
+                <br></br>
+            </a4j:outputPanel>
+
+        </ui:define>
+    </ui:composition>
+</html>
+

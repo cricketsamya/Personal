@@ -1,0 +1,681 @@
+#--common messages----
+app_title=MyC2i
+short_date_pattern=MM-dd-yyyy
+long_date_pattern=MM-dd-yyyy h:mm a
+app_protege = Protégé
+app_mentor = Mentor 
+protege_name = Protege name
+select_mentor = Select mentor
+mentor_registration_title=Mentor Sign up
+guest_registration_title=Guest Sign up
+login_page_title=Login
+invalid_seesion_message = Session is not valid, Please login and try again.
+page_title_password_recovery=Password recovery
+page_title_activity_log=Home >> Activity Log
+page_title_success_story=Home >> Success Story
+page_title_protege_profile=Home >> Protégé Profile
+page_title_protege_search=Home >> Protégé Search
+page_title_lead_mentor_search=Home >> Lead Mentor Search
+page_title_tutorial=Home >> Tutorial
+page_title_myaccount_profile=My Account >> My Profile
+page_title_myaccount_change_password=My Account >> Change Password
+page_title_myaccount_payment=My Account >> Payment
+page_title_donate=Donate to MyC2i
+page_title_ask_a_question=Ask a Question
+page_titile_myresource=My Resource
+page_title_account_confirmation = Account confirmation
+page_title_permission_denied = Permission Denied
+
+page_header_mentor_registration=Mentor Registration
+page_header_guest_registration=Guest Registration
+page_header_activity_log=Activity Log
+page_header_success_story=Success Story
+page_header_protege_profile=Protégé Profile
+page_header_protege_search=Protégé Search
+page_header_mentor_search=Mentor Search
+page_header_mentor_tutorial=Da'wah Certification
+page_header_lead_mentor_search=Lead Mentor Search
+page_header_myaccount_profile=My Profile
+page_header_myaccount_change_password=Change Password
+page_header_myaccount_payment=Yearly Subscription
+page_header_ask_a_question=Ask a Question
+page_header_myresource=My Resource
+page_header_protege_viewpoint=Guest Viewpoint
+page_header_protege_evaluat_mentor = Protege Evaluation of Mentor
+
+#Label for top navigation
+top_navigation_home=Home
+top_navigation_mentor_account=My Account
+top_navigation_mentor_resource=My Resources
+top_navigation_mentor_ask_question=Ask a Question
+top_navigation_mentor_donate=Donate
+top_navigation_mentor_subscribe=Subscribe MyC2i
+top_navigation_sign_out = Sign out
+top_navigation_contact_us=Contact us
+top_navigation_privacy_policy=Privacy policy
+top_navigation_app_management = Application Management
+top_navigation_user_management = User Management
+top_navigation_mp_relation_management = Mentor/Protege Relationship Management
+top_navigation_myaccount = My Account
+
+left_navigation_mentor_dashboard=Dashboard
+left_navigation_mentor_activity_log=Activity Log
+left_navigation_mentor_success_story=Success Stories
+left_navigation_tutorial=Tutorial
+left_navigation_mentor_account_profile=Profile
+left_navigation_mentor_account_change_pass=Change Password
+left_my_profile = My Profile
+left_my_change_password = Change Password
+left_manage_contact_us = Manage Contact Us
+left_navigation_protege_mentor_profile=Mentor Profile
+left_navigation_protege_mentor_search=Mentor Search
+left_navigation_protege_viewpoint=Guest Viewpoint
+
+common_error_system_level=Unable to perform your operation. Please contact with support team.
+
+common_label_signup=Sign up
+common_label_cancel=Cancel
+common_label_back=Back
+common_label_change=Change now
+common_search = Search
+common_file_uploader = File Up Loader
+common_upload_image = Upload image
+common_upload_audio = Upload audio file
+common_upload_video = Upload video file
+common_rich_editor_title = Rich Text Editor 
+common_rich_input_title = Rich Text
+
+#Email section for account confirmation
+tutorial_test_email_sub = Dawa Certification tutorial test result for module: {0}
+tutorial_test_email_body = Dear {0},<br /><br />Module result summary: <br/<br/> Total questions: {1} <br/> Correct answers: {2} <br/> Your have scored {3}% marks.<br/> Result status: {4}  <br/><br /> Thanks, <br/> MyC2i support team.
+
+admin_new_user_creation_notify_sub = MyC2i new user creation notification
+admin_new_user_creation_notify_body = Dear {0}, <br /> <br />Your MyC2i account has been created by MyC2i system administrator.Your login Id\: {1} and initial password\: {2} <br/><br/>Please login into <a href\="http\://www.myc2i.com/myc2i/">MyC2i</a>  and change your password.<br/><br/> Thanks <br/>MyC2i support team.
+
+chapter_update_notification_subject = MyC2i chapter update notification
+chapter_delete_notification_subject = MyC2i chapter delete notification
+
+chapter_delete_notification_body = Dear {0},<br /><br />The chapter named <b>{1}</b> has been deleted by MyC2i system administrator.<br /> <br /> Thanks, <br/> MyC2i support team.
+chapter_update_notification_body = Dear {0},<br /><br />The chapter named <b>{1}</b> has been updated by MyC2i system administrator.<br /> <br /> Thanks, <br/> MyC2i support team.
+
+password_change_notification_subject = MyC2i password change notification
+password_change_notification_body = Dear {0},<br /><br />Your password has been changed by MyC2i system administrator.Your new password is: {1} <br /> <br /> Thanks, <br/> MyC2i support team.
+
+email_account_confirmation_subject=MyC2i account confirmation
+email_account_confirmation_body=<h3>MyC2i account confirmation</h3> <br/><br/>Thank you for registering MyC2i. <br/>Your login Id\: {0} and initial password\: {1} <br/>Please login into <a href\="http\://www.myc2i.com/myc2i/">MyC2i</a>  and change your password.<br/><br/> Thanks <br/>MyC2i support team.
+
+#Email section for password change
+email_password_change_confirmation_subject=MyC2i account password change notification
+email_password_change_confirmation_body=<h3>MyC2i account password change notification</h3> <br/><br/>Thank you for changing your password. <br/>Your current login Id\: {0} and password\: {1} <br/><br/> Thanks <br/>MyC2i support team.
+
+#Email section for password recovery
+email_password_recovery_confirmation_subject=MyC2i account password recovery notification
+email_password_recovery_confirmation_body=<h3>MyC2i account password recovery notification</h3> <br/><br/>Thank you for requesting your password. <br/>Your login Id\: {0} and password\: {1} <br/> <br/><br/> Thanks <br/>MyC2i support team.
+
+#Email section for password change
+email_activity_log_subject=MyC2i {0} 
+email_activity_log_body=<h3>MyC2i {0} </h3> <br/><br/>You have a new {0}. <br/>Please login into <a href\="http\://www.myc2i.com/myc2i/">MyC2i</a>  and approve or deny.<br/><br/> Thanks <br/>MyC2i support team.
+										
+#Email notification for protege release
+email_mentor_request_accepted_subject=MyC2i mentor request accepted
+email_protege_request_accepted_subject=MyC2i protege request accepted
+email_lead_mentor_request_accepted_subject=MyC2i lead mentor request accepted
+email_mentor_release_subject=MyC2i mentor release notification
+email_mentor_request_rejected_subject=MyC2i mentor request rejected
+email_protege_request_rejected_subject=MyC2i protege request rejected
+email_protege_release_subject=MyC2i protege release notification
+email_weekly_winner_subject=MyC2i weekly story competition winning notification
+email_other_request_subject= MyC2i {0}
+email_request_rejected_subject= MyC2i {0} rejected
+
+email_protege_release_body= You have been release by mentor, {0}
+email_mentor_release_body= You have been release by protege, {0}
+email_mentor_request_accept_body=Your mentor request has been confirmed by the protege, {0} <br/><br/>Note:<br/><br/>{1}
+email_other_request_accept_body=Your {0} request has been confirmed by , {1} <br/><br/>Note:<br/><br/>{2}
+email_protege_request_accept_body=Your protege request has been confirmed by the mentor, {0} <br/><br/>Note:<br/><br/>{1}
+email_lead_mentor_request_accept_body=Your lead mentor request has been confirmed by the mentor, {0} <br/><br/>Note:<br/><br/>{1}
+email_protege_request_reject_body=Your protege request has been denied by the mentor, {0} <br/><br/>Note:<br/><br/>{1}
+email_mentor_request_reject_body=Your mentor request has been denied by the protege, {0} <br/><br/>Note:<br/><br/>{1}
+email_weekly_winner_body=MyC2i weekly story competition result: <br/><br/>Winner Name: {0} <br/><br/>Prize Money:<br/><br/>$500<br/><br/>Thanks <br/>MyC2i support team.
+email_request_reject_body=Your {0} request has been denied by , {1} <br/><br/>Note:<br/><br/>{2}
+#Login page label
+login_page_guest_signup=Guest sign up
+login_page_mentor_signup=Mentor sign up
+login_page_why_register=Why Register with MyC2i?
+login_page_why_register_content1=Make Personal Contacts with muslims and people of other faiths in your area
+login_page_why_register_content2=Reach your Goal learning more about Islam and other religions through personal contact. 
+login_page_why_register_content3=Train and get certified as a mentor.
+login_page_why_register_content4=Your information is kept strictly confidential-We do not sell your information to third parties.
+login_page_why_register_content5=It all starts with you registering with us...so register now!
+login_page_login_box_title=MyC2i Login
+login_page_forget_your_pass=Forget your password
+login_page_login_button=Login
+login_page_login_remember_me=Remember me
+login_page_login_password=Password
+login_page_login_email=Email Id
+lgoin_page_login_error=Invalid user or password provided
+lgoin_page_login_system_error=System is unable to login you right now.
+login_page_success_stories=Success stories
+login_page_success_stories1=The misfortunes occurring to the Muslims is simply due to the fact that Muslims are moving away
+login_page_success_stories2=from the true teachings of Islam, as taught by Muhammad (peace be upon him).The world will be a better 
+login_page_success_stories3=place if Islam is revived back into the Muslims,lives and ultimately, spread to the rest of the world. Many important
+login_page_case_sensitive = Login name is case sensitive. 
+
+# -- Local user management --
+payment_management = Payment Management
+password_management = Password Management
+user_management = User Management
+user_old_password = Old Password
+user_new_password = New Password
+user_confirm_new_password = Confirm New Password
+user_password_miss_match_msg = Old password does not match with current password.
+user_oldpass_mewpass_notmatch = New Password and Confirm New Password does not match.
+member_email = Email
+member_admin_yn = Admin (Y/N)
+user_management_add_mentor = Add Mentor
+user_management_add_protege = Add Protege
+user_management_add_admin = Add Admin
+my_profile_information = My Profile Information
+update_success_message = Update successfully completed.
+added_success_message = Successfully added.
+my_profile_chg_password = Change Your Password
+update_password_success_message = Password has been changed successfully
+
+contact_us_from = From
+contact_us_subject = Subject 
+contact_us_details = Details
+contact_us_message_details = Message Details
+contact_us_show_message_between = Show message between
+contact_us_and = and
+contact_us_search = search
+
+#Information information
+member_first_name=First name
+member_last_name=Last name
+member_address=Address
+member_city=City
+member_state=State
+member_zip=Zip
+member_country=Country
+member_phone=Phone
+member_home_phone=Home phone
+member_work_phone=Work phone
+member_cell_phone=Cell phone
+member_email_id=Email (Login Id)
+member_privacy_ind=Privacy indicator
+member_host_indicator=Willing to be a host ind
+member_privacy_dont_email=Do not contact me by email
+member_privacy_dont_phone=Do not contact me by phone
+member_password=Password
+member_password_confirm=Confirm password
+member_introduction_url_label1=Introduction web link [If you have a MyC2i 
+member_introduction_url_label2=introduction video, enter it here]
+member_online_profile=Online profile
+member_ethinicity=Ethnicity
+member_marital_status=Marital status
+member_gender=Gender
+member_birth_year=Year of birth
+member_children_ind=Have children
+member_profession=Profession
+member_madhab=Madhab
+member_company_name=Company name
+member_gender_male=Male
+member_gender_female=Female
+member_knowledge_level=Knowledge level about Islam
+member_current_faith=Current faith
+member_new_email_notify=Sign me up for the "MyC2i News and Event" email 
+member_term_privacy_policy=I agree to the term of use and privacy policy
+member_validation_header=Please check the following information and try again
+member_validation_first_name=First name required
+member_validation_last_name=Last name required
+member_validation_zip_code=Zip code is not valid
+member_validation_state=State name required
+member_validation_city=City name required
+member_validation_home_phone=Home phone is not valid
+member_validation_work_phone=Work phone is not valid
+member_validation_cell_phone=Cell phone is not valid
+member_validation_email_address=Email address is invalid
+member_validation_password=Password must be 6-20 characters starting with letter, at least an upper case letter and one number. 
+member_validation_old_password=Old password can not be empty
+member_validation_new_password=New password can not be empty
+member_validation_confirm_password=Confirm password can not be empty
+member_validation_profession=Select a profession name
+member_validation_gender=Select your gender
+member_validation_ethinicity=Select your ethnicity
+member_validation_madhab=Select your madhab
+member_validation_birth_year=Select your birth year
+member_validation_password_dont_match=Confirm password do not match
+member_validation_email_exist=Member email id already exist
+member_validation_licence_agree=You have to agree with MyC2i terms and policy
+member_validation_marital_status=Select your marital status 
+
+member_type= User Type
+member_email_address = Email Address
+member_linked_in_URL=Linked In URL
+member_register_system_error=Unable to register with MyC2i. Please contact MyC2i support.
+mentor_notselect = Mentor is not selected. Please select mentor to assigning protege
+mentor_success=You have been successfully registered to MyC2i. Please click back button to login MyC2i.
+mentor_success_header=Congratulation !!!
+member_certification=Certi. Date
+member_cert_valid=Membership valid until
+member_dashboard_log=Mentor log
+protege_assign_mentor = Assign mentor
+protege_search = Search
+protege_manage_protege = Manage Protege
+
+page_header_change_password=Change password
+change_password_current_password=Current password
+change_password_new_password=New password
+change_password_confirm_new_password=Confirm new password
+change_password_user_not_logged_in=You are not current logged in
+change_password_dont_match=Your new password don't match
+change_password_change_validation_new_password_empty=New is password empty
+change_password_change_validation_old_password_invalid=Invalid old password
+change_password_security_question1_empty=First security question answer is empty
+change_password_security_question1_chose=Chose your first security question
+change_password_security_question2_empty=Second security question answer is empty
+change_password_security_question2_chose=Chose your second security question
+change_password_unable_to_update=Unable to change member password.
+change_password_validation_old_password_invalid=Invalid old password
+
+security_question_1=What is your pet's name?
+security_question_2=What was the name of your first school?
+security_question_3=What is your favorite past-time?
+security_question_4=What is your all-time favorite sports team?
+security_question_5=What is your high school mascot?
+
+#Password recovery page
+password_recovery_page_header=Recover your lost password
+password_recovery_email=Email address
+password_recovery_question1=Security question 1
+password_recovery_question2=Security question 2
+password_recovery_question1_ans=Your answer 1
+password_recovery_question2_ans=Your answer 2
+password_recovery_confirm=Confirm
+password_recovery_invalid_member=Member security information is not valid. Please check your email, security questions and answers.
+password_recovery_confirmation_message=Your password has been sent to your email address.
+password_recover_unable_to_recover_password=Unable to recover your lost password. Please contact MyC2i support team.
+
+activity_log_activity_view_title=Message Details
+activity_log_activity_title=Activity Log
+activity_log_subject=Subject
+activity_log_body=Message detail
+activity_log_add_new=Create new activity
+activity_log_mentor_protege=Mentor/Protégé
+activity_type=Activity type
+activity_subject=Subject
+activity_date_time=Date & time
+activity_comments=Comments
+activity_log_validation_subject=Message subject is required
+activity_log_recent_activities=Activities request for approval
+activity_log_previous_activities=Previous activities
+activity_log_mentor_list=Mentor/Protégé list
+activity_log_release_sub=Protégé released by mentor
+activity_log_release_body=Protégé released by mentor
+activity_log_release_mentor_sub=Mentor released
+activity_log_release_mentor_body=Mentor released by protege
+acitivity_log_protege_request_sub=Protégé request
+acitivity_log_mentor_request_sub=Mentor request
+acitivity_log_protege_request_formentor_sub=Protégé request to lead mentor
+acitivity_log_mentor_request_to_lead_mentor_sub=Mentor request to Lead mentor
+acitivity_log_protege_request_formentor_body=Be my lead mentor.
+
+success_story_modal_title=Add/Modify story
+protege_viewpoint_modal_title=Add/Modify viewpoint
+success_story_create_new=Create new story
+success_story_my_stories=My success stories
+protete_viewpoint_my_myviewpoint=My viewpoints
+success_story_title=Story title
+viewpoint_title=Viewpoint title
+success_story_details=Story details
+viewpoint_details=Viewpoint details
+success_story_create=Created on
+success_story_video_url=Story video URL
+viewpoint_video_url=Viewpoint video URL
+success_story_permission=Ready to publish
+success_story_character_left=Word left
+success_story_edit_label=Click on this button to edit this story
+success_story_delete_label=Click on this button to delete this story
+
+dashboard_mentor_page_title=Dashboard
+dashboard_mentor_greeting=Welcome to MyC2i \:\: As Salaamu alaikum , 
+dashboard_protege_greeting=Welcome to MyC2i ,
+dashboard_mentor_most_voted_story=Most voted story
+dashboard_mentor_top_ten_stories=Top ten stories
+dashboard_mentor_winning_story=Wining story
+dashboard_mentor_mentor_sucess=Success story
+dashboard_mentor_new_protege_request=New Protégé request
+dashboard_mentor_new_mentor_request=New Mentor request
+dashboard_new_activity_request=New activity request
+dashboard_mentor_membership_expiry=Membership expiry date
+dashboard_mentor_request= sent a request to be a prot\u00E9g\u00E9 
+dashboard_mentor_what_new=What's New
+dashboard_mentor_common_islamic_term=Common Islamic Term
+dashboard_mentor_common_important_links=Important Links
+dashboard_mentor_term=Term
+dashboard_mentor_meaning=Meaning
+dashboard_mentor_reporting=You have the following mentors reporting
+dashboard_protege_first_name=Protégé first name
+dashboard_protege_last_name=Protégé last name
+dashboard_protege_mentor_date=Mentor-Protégé start date
+dashboard_protege_mentor_last_activity=Mentor-Protégé last activity
+dashboard_protege_mentor_review=Mentor Reviews
+dashboard_protege_no_activity=Mentors with no activity within last 7 days
+dashboard_protege_request= sent a request to be a mentor 
+dashboard_mentor_last_activity=Last activity date
+
+dashboard_protege_top_ten_stories=Top ten stories
+dashboard_protege_winning_story=Winning story
+dashboard_protege_success_viewpoints=Success stories
+
+protege_search_distance=Distance
+protege_search_distance_five=5
+protege_search_distance_ten=10
+protege_search_distance_fifteen=15
+protege_search_distance_twenty=20
+protege_search_distance1=miles within zip code
+protege_search_match_my=Match my
+protege_search_profession=Profession
+protege_search_ethnicity=Ethnicity
+protege_search_marital_status=Marital status
+protege_search_year_of_birth=Year of birth
+protege_search_result=Protégé search result
+protege_mentor_result=Mentor search result
+protege_lead_mentor_result=Lead mentor search result
+protege_search_name=Name
+protege_search_profile=Profile
+protege_search_contact=Contact
+protege_search_add_protege=Add protege
+protege_search_add_mentor=Add mentor
+
+lead_mentor_search_result=Lead Mentor Search Result
+
+mentor_payment_text1=A nominal annual registration fee of $35.00 is required of all mentors. This fee enables MyC2i to develop, maintain and enhance the Dawa and Ansar portal.
+mentor_payment_text2=We also encourage you to support the membership of a guest/protege who wants to learn about Islam. The cost to support a guest/protege is $10/year.
+mentor_payment_text3=You can support as many guest/proteges as you like. The $10 support annual fee allows us to assist the new Muslim with job placement, accomodation (if required), social support-like meals with other Muslims or any other type of assistance required by a new Muslim.
+mentor_payment_text4=Select an amount below and click on the Subscribe button
+mentor_payment_text5=MyC2i does not collect or store any financial information. All your donations are securely handled by PayPal. 
+mentor_payment_text6=Jazakallah khair for your generous support.
+
+mentor_payment_35=$35 (My registration and 0 guest)
+mentor_payment_45=$45 (My registration and 1 guests)
+mentor_payment_55=$55 (My registration and 2 guests)
+mentor_payment_75=$75 (My registration and 3 guests)
+mentor_payment_125=$125 (My registration and 5 guests)
+mentor_payment_175=$175 (My registration and 10 guests
+mentor_payment_225=$225 (My registration and 15 guests)
+mentor_payment_275=$275 (My registration and 20 guests)
+
+member_donate_text1=MyC2i is a non-profit organization.
+member_donate_text2=All your donations are tax deductible as applicable under law.
+member_donate_text3=Select a donation amount and click on the Donate button. Please donate generously.
+member_donate_text4=MyC2i does not collect or store any financial information. All your donations are securely handled by PayPal.
+member_donate_text5=Jazakallah khair for your generous support. 
+
+member_ask_question_q_no=Question No
+member_ask_question_topic=Topic
+member_ask_question_keys=Key Words
+member_ask_question_result=Search Result
+member_ask_question_ans_details=Details
+member_ask_question_reference=Reference
+member_ask_question_question=Question
+
+protege_profile_my_protege=My Protégés
+protege_profile_protege_info=Protégés Information
+protege_profile_email=Email
+
+member_tutorial_play=Play tutorial module
+member_my_resource_books=Available Books
+member_my_resource_cd=Available CDs
+
+button_save_label=Save
+button_create_label=Create
+button_cancel_label=Cancel
+button_close_label=Close
+button_open_label=Open
+button_add_label=Add
+button_submit_label=Submit
+yes_label=Yes
+no_label=No
+or_label=or
+button_cancel=Cancel
+button_clear=Clear
+button_symbol_next=>>
+button_symbol_prev=<<
+common_label_action=Action
+button_label_view=View protégé profile
+button_label_view_mentor=View mentor profile
+button_tooltips_send_request=Send Protégé Request
+button_tooltips_send_mentor_request=Send Mentor Request
+button_tooltips_send_lead_mentor_request=Send Lead Mentor Request
+button_tooltips_release_from_mentor=Release my current mentor
+button_label_release=Release protégé
+button_label_release_mentor=Release mentor
+button_label_accept=Accept
+button_label_deny=Deny
+button_label_search=Search
+button_label_send_request=Send Request
+button_label_confirm=Confirm
+
+date_format=MMM d, yyyy
+
+warning_message=Warning
+
+
+# -- Common --
+common_add_new = Add new
+common_action = Action
+common_yes = Yes
+common_no = No 
+common_system_error = Unable to process your request. Please try again later or contact with MyC2i support.
+common_upload = Upload files
+common_supported_image_ext = JPG,GIF,PNG,BMP
+common_supported_audio_ext = MP3,WAV,AUP
+common_supported_video_ext = MPEG,3GP,AVI
+
+common_supported_image_label = JPG, GIF, PNG and BMP
+common_supported_audio_label = MP3, WAV and AMR
+common_supported_video_label = MPEG, 3GP and AVI
+
+common_supported_only = <b>Note :<b>Supported format -
+common_error_header = Invalid or incomplete data.<br />Please fill up following field(s) correctly.<br />
+common_error_prefix = -
+
+# -- Left navigation --
+left_navigation_user_defined_values = User Defined Values
+left_navigation_item_vendor = Training Item Vendor
+left_navigation_training_material = Training Material
+left_navigation_document_manage = Tutorial Document
+left_navigation_tutorial_modules = Tutorial Modules
+left_navigation_tutorial_qa = Tutorial Q & A
+left_navigation_manage_user = Manage User
+left_navigation_reset_user_password = Reset User Password 
+left_navigation_update_payment = Update Payment
+left_chapter_manage_chapter = Manage Chapter
+left_chapter_proteges_without_mentor = Proteges Without Mentor
+chapter_manage_chapter = Manage Chapter
+header_msg_manage_user = Manage User 
+header_msg_contact_us = Contact Us
+
+# -- Header message --
+header_msg_add = Add
+header_msg_update = Update
+header_msg_user_define_value = User Defined Values ::
+header_msg_training_item_vendor = Training Item Vendor ::
+header_msg_training_material = Training Material ::
+header_msg_tutorial_document = Tutorial Document ::
+header_msg_tutorial_modules = Tutorial Modules ::
+header_msg_tutorial_qa = Tutorial Q & A \:\: 
+header_msg_manage_chapter = Manage Chapter \:\: 
+header_msg_proteges_without_mentor = Proteges Without Mentor
+header_msg_reset_user_password = Reset User Password
+header_msg_update_payment = Update Payment information
+header_msg_assign_proteges_to_mentor = Assign Protege To Mentor
+error_msg_modules_notselect = Module name
+ 
+# -- Training Materials --
+user_define_values_code = Code
+user_define_values_desc = Description
+user_define_values_validation_category = Category name.
+user_define_values_category_name = Category Name
+user_define_manage = Manage user defined values
+
+# -- Training Materials --
+trainingm_validation_item_category = Item category
+manage_training_materials = Manage Training Materials
+training_materials_item_category = Item category
+training_materials_action = Action
+training_materials_item_desc = Item Description
+training_materials_eindicator = E-Indicator
+training_materials_estorage_loc = E-Storage Loc
+training_materials_sub_ind = Sub. Ind
+training_materials_purchase_cost = Purchase cost
+training_materials_sales_price = Sales price
+training_materials_version = Version
+training_materials_language = Language
+training_materials_available = Available
+training_materials_vendor_item_id = Vendor item id
+training_materials_vendor_name = Vendor name
+training_materials_vendor_email = Vendor email
+training_materials_vendor_address = Vendor address
+training_materials_vendor_phone = Vendor phone
+
+training_materials_item_image = Item image
+vendor_management = Vendor management 
+vendor_new_vendor = Add new
+vendor_select_vendor = Vendor name
+vendor_notselect = Vendor name
+document_management = Document management
+document_add_new = Add new
+document_name = Document name
+document_audio = Document audio 
+document_video = Document video
+vendor_select_module = Module name
+
+# -- Question and Answer Modules --
+question_ans_module = Module
+question_ans_add_new = Add Q&A to Module
+question_ans_question = Question
+question_ans_page_no = Page No
+
+# -- Manage Tutorial Modules --
+tutorial_pass_marks = 80
+tutorial_pass_status = Passed
+tutorial_fail_status = Failed
+tutorial_user_type = User type
+tutorial_number = Number
+tutorial_module_name = Name
+tutorial_module_text = Text
+tutorial_module_title = Title
+tutorial_module_test_ind = Test indicator
+tutorial_add_new = Add new module
+tutorial_manage_tutorial = Manage Tutorial Modules
+tutorial_select_document = Document name
+tutorial_select_user_type = User type
+tutorial_module_audio = Module audio 
+tutorial_module_video = Module video
+tutorial_qa_question = Question
+tutorial_qa_page_number = Page no
+tutorial_qa_page_text = Page text
+tutorial_qa_page_title = Page title
+tutorial_qa_page_audio = Page audio
+tutorial_qa_page_video = Page video
+tutorial_qa_correct_ans = Correct answer
+tutorial_qa_options_ans_a = Options Answer A
+tutorial_qa_options_ans_b = Options Answer B
+tutorial_qa_options_ans_c = Options Answer C
+tutorial_qa_options_ans_d = Options Answer D
+tutorial_qa_options_ans_e = Options Answer E
+tutorial_qa_options_ans_f = Options Answer F
+tutorial_module_doc_notselect = Document type
+tutorial_module_user_notselect = User type
+
+# -- Local chapter Modules --
+chapter_chapter_name = Chapter name
+chapter_chapter_leader = Chapter leader
+chapter_lead = Chapter lead
+chapter_city = City
+chapter_state = State
+chapter_street_address = Street address
+chapter_zip = Zip
+chapter_country = Country
+chapter_phone = Phone
+chapter_email_address = Email address
+chapter_add_new_chapter = Add New Chapter
+chapter_url = Chapter URL
+chapter_search = Search
+show_all_protege = Show all protégé
+
+# -- Update payment information --
+payment_member_first_name = First name 
+payment_member_exp_date = Expiry date 
+payment_last_payment_date = Last payment date 
+payment_last_transaction_id = Last transaction id 
+payment_terms = Payment terms 
+payment_no_payment_info_msg = No payment information found for the member
+payment_payer_email = Payer email
+payment_amount = Gross amount 
+payment_currency = Currency
+payment_transaction_id = Transaction id
+
+# -- Protege Evaluation of Mentor --
+protege_evaluat_mentor_managment = Protege Evaluation of Mentor 
+protege_evaluat_mentor_factor = Factor
+protege_evaluat_mentor_rating = Rating
+protege_evaluat_mentor_vmuch_agree = Very Much Agree
+protege_evaluat_mentor_somewhat_agree = Somewhat Agree 
+protege_evaluat_mentor_neutral = Neutral
+protege_evaluat_mentor_dagree = Disagree
+protege_evaluat_mentor_vmuch_dagree = Very Much Disagree
+protege_evaluat_mentor_factor_one_text = The mentor was courteous
+protege_evaluat_mentor_factor_two_text = The mentor was knowledgeable
+protege_evaluat_mentor_factor_three_text = The mentor respectful of my privacy
+protege_evaluat_mentor_factor_four_text = Would recommend mentor to others
+protege_evaluat_mentor_factor_five_text = The mentor invited me to his home
+protege_evaluat_mentor_factor_six_text = The mentor contacted me regularly
+protege_evaluat_mentor_no_mentor_errmsg = Sorry, you do not have a mentor to evaluate.\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t
+protege_evaluat_mentor_errmsg = You do not have a mentor to evaluate.\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t
+
+protege_evaluat_mentor_vmuch_agree_val = 10
+protege_evaluat_mentor_somewhat_agree_val = 7
+protege_evaluat_mentor_neutral_val = 0
+protege_evaluat_mentor_dagree_val = 4
+protege_evaluat_mentor_vmuch_dagree_val = 1
+
+# -- Validation
+select_lead_chapter = Chapter lead 
+chapter_exist = Chapter name already exist.
+training_materials_vendor_exist = Vendor name already exist.
+user_define_values_category_exist = Category name already exist.
+user_define_values_code_exist = Code already exist.
+document_exist = Document name already exist.
+item_description_exist = Item description already exist.
+module_name_exist = Name already exist.
+question_exist = Question already exist.
+page_no_exist = Page no already exist.
+validation_msg_not_empty = Can not be empty
+validation_msg_usertype_required = User type required
+module_content_cant_empty = Module content can not be empty
+page_content_cant_empty = Page content can not be empty
+story_label_description=Enter in less than 500 words your inspiring story about how you helped someone become muslim or how you became muslim. Your story will be displayed to all site visitors and paid members will be able to vote. The voting results and the winner are published at 1\:00 am every Saturday morning. The winner will receive $500. You can enter a NEW story as many times as you like but you can only win once a year. Move the world with your success story\!
+
+viewpoint_label_description=Enter in less than 200 words your viewpoint and reason why you would not consider Islam as your religion. You need to register and complete the online orientation about Islam to post your viewpoint and vote. The orientation takes less than 15 minutes. Your viewpoint will be displayed to all site visitors and registered members will be able to vote. The voting results and the winner are published at 1:00 am every Saturday morning. The winner will receive $100. You can enter a NEW viewpoint as many times as you like but you can only win once a year. Move the world with your viewpoint!
+
+guest_registration_header=Welcome to guest registration process. After the successful registration and an email message will be sent to you  with your initial password. You may login with your initial password and change it with new password.
+mentor_registration_header=Welcome to mentor registration process. After the successful registration and an email message will be sent to you  with your initial password. You may login with your initial password and change it with new password. 
+# -- footer --
+footer_copyright=Version @APPVERSION@ \u00B7 Copyright \u00A9 @COPYRIGHT-YEAR@ \u00B7
+
+about_us_line1=Myc2i provides mentorship in and assistance with information about Islam by assigning a protégé/guest to a mentor.
+about_us_line2=Mentors are trained and certified in providing information about Islam to non-Muslims and Muslim youth.
+about_us_line3=All contact information is kept strictly confidential. The mentor nor the protégé sees each other's information through the site.
+about_us_line4=Myc2i is a project of the Dawa Institute of North America-DINA.
+about_us_line5=DINA is a non-profit organization and in the process of obtaining 501(3)c status.
+
+contact_us_line1=admin@myc2i.com
+contact_us_line2=8111 LBJ Freeway, Suite 685, Dallas, TX 75251
+contact_us_line3=469.867.9430
+protege = prot\u00E9g\u00E9 
+copyright = Copyright © 2010 MyC2I.com. All Rights Reserved.
+
+membership_expiry_period =30

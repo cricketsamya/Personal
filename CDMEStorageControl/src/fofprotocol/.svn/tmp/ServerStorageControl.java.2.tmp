@@ -1,0 +1,378 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package fofprotocol;
+
+import net.Connection;
+import net.Message;
+import net.MessageIf;
+import storagecontrol.utility.FofUtility;
+import storagecontrol.utility.Utility;
+
+/**
+ * This class is used to connect to the Storage Simulator.
+ * For the connection from Storage module the Storage-Control will act as a Client.
+ * @author Sameer
+ */
+public class ServerStorageControl extends Thread {
+
+    private static final String ACK_SENDER = "Sl";
+    private static final String ACK_RECEIVER = "la";
+    private static final int PUT_PALETTE = 1;
+    private static final int GET_PALETTE = 2;
+    private ClientStorageControl clientStorageControl;
+    private Connection connectionToStorage = null;
+    private String strLastInstuction = "";
+    private MessageIf objStoredMessage;
+
+    public void run() {
+        begin();
+    }
+
+    public void begin() {
+        boolean bConnectionEstablished = false;
+        boolean isCycleComplete = FofUtility.checkCycleIsCompleteFromFile(FofUtility.INSTRUCTION_STORAGE_SEQUENCE_FILENAME);
+        String strPalletId = "";
+        while (true) {
+            try {
+
+//                connectionToStorage = new Connection("127.0.0.1", 9999, "la", "Sl");
+                if (connectionToStorage == null) {
+                    connectionToStorage = new Connection(9999, "Sl", "la"); //Server side
+                    bConnectionEstablished = true;
+                }
+
+
+            } catch (Exception ex) {
+                connectionToStorage = null;
+            }
+            while (connectionToStorage != null && bConnectionEstablished) {
+                try {
+                    if (!isCycleComplete) {
+                        String strFullInstruction = FofUtility.readLastInstructionFromFile(FofUtility.INSTRUCTION_STORAGE_SEQUENCE_FILENAME);
+                        String[] strArrTmp = strFullInstruction.split(":");
+                        strLastInstuction = strArrTmp[1];
+                        strPalletId = strArrTmp[2];
+                        try {
+                            objStoredMessage = Utility.messageSplitter(strArrTmp[3]);
+                        } catch (Exception ex) {
+                        }
+                        if (strArrTmp[0].equals("Get")) {
+                            storagePalletOperation(strPalletId,GET_PALETTE);
+                        }
+                        if (strArrTmp[0].equals("Put")) {
+                            storagePalletOperation(strPalletId,PUT_PALETTE);
+                        }
+                        isCycleComplete = true;
+                    }
+//                    getPalletFromStorage("123");
+                    Thread.sleep(5000);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+//
+//    public boolean getPalletFromStorage(String strPalletId) {
+//        Boolean isSuccess = false;
+//        Message msgAck1 = null;
+//        Message msgAck2 = null;
+//        MessageIf msgAckOneFromStorage = null;
+//        MessageIf msgAckTwoFromStorage = null;
+//        MessageIf msgCommandToStorage = new Message("K002", strPalletId);
+//        ((Message) msgCommandToStorage).setSender(ACK_SENDER);
+//        ((Message) msgCommandToStorage).setReceiver(ACK_RECEIVER);
+//        if (strLastInstuction.equals("")) {
+//            FofUtility.writeInstructionToFile("Slla:Get:S1:" + strPalletId + ":" + Utility.messageGenerator((Message) msgCommandToStorage));
+//        }
+//        if (strLastInstuction.equals("S1") || strLastInstuction.equals("")) {
+//            System.out.println("Sending an instrunction");
+//            connectionToStorage.send(msgCommandToStorage);
+//            FofUtility.writeInstructionToFile("Slla:Get:S2:" + strPalletId + ":" + Utility.messageGenerator((Message) msgCommandToStorage));
+//            strLastInstuction = "";
+//        }
+//        if (strLastInstuction.equals("S2") || strLastInstuction.equals("")) {
+//            System.out.println("Waiting for acknowledgement 1");
+//            msgAckOneFromStorage = connectionToStorage.receive();
+//            System.out.println("Acknowledgement 1 received");
+//            FofUtility.writeInstructionToFile("Slla:Get:A1:" + strPalletId + ":" + Utility.messageGenerator((Message) msgAckOneFromStorage));
+//            msgAck1 = ((Message) msgAckOneFromStorage);
+//            FofUtility.saveConnectionDetails(msgAck1, connectionToStorage);
+//            strLastInstuction = "";
+//        } else {
+//            //TODO fill this object from log
+//            msgAck1 = (Message) objStoredMessage;
+//        }
+//        if (isValidCommunication(msgAck1)) {
+//            String strCommand1 = msgAck1.getCommand();
+//            String strPayload1 = msgAck1.getPayload();
+//            if (strCommand1.equals("A001") && strPayload1.equals("")) {
+//                if (strLastInstuction.equals("A1") || strLastInstuction.equals("")) {
+//                    System.out.println("Waiting for acknowledgement 2");
+//                    msgAckTwoFromStorage = connectionToStorage.receive();
+//                    System.out.println("Acknowledgement 2 received");
+//                    FofUtility.writeInstructionToFile("Slla:Get:A2:" + strPalletId);
+//                    msgAck2 = ((Message) msgAckTwoFromStorage);
+//                    strLastInstuction = "";
+//                } else {
+//                    //TODO
+//                    msgAck2 = ((Message) objStoredMessage);
+//                }
+//                String strCommand2 = msgAck2.getCommand();
+//                String strPayload2 = msgAck2.getPayload();
+//                if (strCommand2.equals("A002")) {
+//                    if (strPayload2.equals("")) {
+//                        isSuccess = true;
+//                        System.out.println("Pallet is successfully removed.!");
+//                    }
+//                } else if (strCommand2.equals("F000")) {
+//                    if (strPayload2.equals("")) {
+//                        isSuccess = false;
+//                        System.out.println("Error in command!");
+//                    }
+//                } else if (strCommand2.equals("F001")) {
+//                    if (strPayload2.equals("")) {
+//                        isSuccess = false;
+//                        System.out.println("Error in Pallet removal.!");
+//                    }
+//                }
+//            } else {
+//                isSuccess = false;
+//            }
+//        } else {
+//            isSuccess = false;
+//            System.out.println("Not a valid communication");
+//        }
+//        return isSuccess;
+//
+//    }
+//
+//    public boolean putPalletIntoStorage(String strPalletId) {
+//        Boolean isSuccess = false;
+//        MessageIf msgAckOneFromStorage = null;
+//        MessageIf msgAckTwoFromStorage = null;
+//        MessageIf msgCommandToStorage = new Message("K001", strPalletId);
+//        ((Message) msgCommandToStorage).setSender(ACK_SENDER);
+//        ((Message) msgCommandToStorage).setReceiver(ACK_RECEIVER);
+//        Message msgAck1 = null;
+//        Message msgAck2 = null;
+//        if (strLastInstuction.equals("")) {
+//            FofUtility.writeInstructionToFile("Slla:Put:S1:" + strPalletId + ":" + Utility.messageGenerator((Message) msgCommandToStorage));
+//        }
+//        if (strLastInstuction.equals("S1") || strLastInstuction.equals("")) {
+//            System.out.println("Sending an instrunction");
+//            connectionToStorage.send(msgCommandToStorage);
+//            FofUtility.writeInstructionToFile("Slla:Put:S2:" + strPalletId + ":" + Utility.messageGenerator((Message) msgCommandToStorage));
+//            strLastInstuction = "";
+//        }
+//        if (strLastInstuction.equals("S2") || strLastInstuction.equals("")) {
+//            System.out.println("Waiting for acknowledgement 1");
+//            msgAckOneFromStorage = connectionToStorage.receive();
+//            System.out.println("Acknowledgement 1 received");
+//            FofUtility.writeInstructionToFile("Slla:Put:A1:" + strPalletId + ":" + Utility.messageGenerator((Message) msgAckOneFromStorage));
+//            msgAck1 = ((Message) msgAckOneFromStorage);
+//            FofUtility.saveConnectionDetails(msgAck1, connectionToStorage);
+//            strLastInstuction = "";
+//        } else {
+//            msgAck1 = (Message) objStoredMessage;
+//        }
+//        if (isValidCommunication(msgAck1)) {
+//            String strCommand1 = msgAck1.getCommand();
+//            String strPayload1 = msgAck1.getPayload();
+//            if (strCommand1.equals("A001") && strPayload1.equals("")) {
+//                if (strLastInstuction.equals("A1") || strLastInstuction.equals("")) {
+//                    System.out.println("Waiting for acknowledgement 2");
+//                    msgAckTwoFromStorage = connectionToStorage.receive();
+//                    System.out.println("Acknowledgement 2 received");
+//                    FofUtility.writeInstructionToFile("Slla:Put:A2:" + strPalletId);
+//                    msgAck2 = ((Message) msgAckTwoFromStorage);
+//                    strLastInstuction = "";
+//                } else {
+//                    //TODO
+//                    msgAck2 = ((Message) objStoredMessage);
+//                }
+//                msgAck2 = ((Message) msgAckTwoFromStorage);
+//                String strCommand2 = msgAck2.getCommand();
+//                String strPayload2 = msgAck2.getPayload();
+//                if (strCommand2.equals("A002")) {
+//                    if (strPayload2.equals("")) {
+//                        isSuccess = true;
+//                        System.out.println("Pallet is successfully removed.!");
+//                    }
+//                } else if (strCommand2.equals("F000")) {
+//                    if (strPayload2.equals("")) {
+//                        isSuccess = false;
+//                        System.out.println("Error in command!");
+//                    }
+//                } else if (strCommand2.equals("F001")) {
+//                    if (strPayload2.equals("")) {
+//                        isSuccess = false;
+//                        System.out.println("Error in Pallet removal.!");
+//                    }
+//                }else if (strCommand2.equals("F002")) {
+//                    if (strPayload2.equals("")) {
+//                        isSuccess = false;
+//                        System.out.println("Error in Pallet removal.!");
+//                    }
+//                }
+//            } else {
+//                isSuccess = false;
+//            }
+//        } else {
+//            System.out.println("Not a valid communication");
+//            isSuccess = false;
+//        }
+//        return isSuccess;
+//
+//
+//    }
+
+    public boolean storagePalletOperation(String strPalletId,int nOperation){
+         Boolean isSuccess = false;
+        MessageIf msgAckOneFromStorage = null;
+        MessageIf msgAckTwoFromStorage = null;
+<<<<<<< .mine
+        MessageIf msgCommandToStorage = null;
+        String strOperation = "";
+        if(nOperation==PUT_PALETTE){
+            msgCommandToStorage = new Message("K001", strPalletId);
+            strOperation = "Put";
+        }else if(nOperation==GET_PALETTE){
+            msgCommandToStorage = new Message("K002", strPalletId);
+            strOperation = "Get";
+        }
+        ((Message) msgCommandToStorage).setSender(ACK_SENDER);
+        ((Message) msgCommandToStorage).setReceiver(ACK_RECEIVER);
+        Message msgAck1 = null;
+        Message msgAck2 = null;
+        if (strLastInstuction.equals("")) {
+            FofUtility.writeInstructionToFile("Slla:"+strOperation+":S1:" + strPalletId + ":" + Utility.messageGenerator((Message) msgCommandToStorage),FofUtility.INSTRUCTION_STORAGE_SEQUENCE_FILENAME);
+        }
+        if (strLastInstuction.equals("S1") || strLastInstuction.equals("")) {
+            System.out.println("Sending an instrunction");
+            connectionToStorage.send(msgCommandToStorage);
+            FofUtility.writeInstructionToFile("Slla:"+strOperation+":S2:" + strPalletId + ":" + Utility.messageGenerator((Message) msgCommandToStorage),FofUtility.INSTRUCTION_STORAGE_SEQUENCE_FILENAME);
+            strLastInstuction = "";
+        }
+        if (strLastInstuction.equals("S2") || strLastInstuction.equals("")) {
+            System.out.println("Waiting for acknowledgement 1");
+            msgAckOneFromStorage = connectionToStorage.receive();
+            System.out.println("Acknowledgement 1 received");
+            FofUtility.writeInstructionToFile("Slla:"+strOperation+":A1:" + strPalletId + ":" + Utility.messageGenerator((Message) msgAckOneFromStorage),FofUtility.INSTRUCTION_STORAGE_SEQUENCE_FILENAME);
+            msgAck1 = ((Message) msgAckOneFromStorage);
+            FofUtility.saveConnectionDetails(msgAck1, connectionToStorage);
+            strLastInstuction = "";
+        } else {
+            msgAck1 = (Message) objStoredMessage;
+        }
+=======
+        MessageIf msgCommandToStorage = new Message("K002", strPalletId);
+        connectionToStorage.send(msgCommandToStorage);
+        msgAckOneFromStorage = connectionToStorage.receive();
+        Message msgAck1 = ((Message) msgAckOneFromStorage);
+        FofUtility.saveConnectionDetails(msgAck1, connectionToStorage);
+>>>>>>> .r66
+        if (isValidCommunication(msgAck1)) {
+            String strCommand1 = msgAck1.getCommand();
+            String strPayload1 = msgAck1.getPayload();
+            if (strCommand1.equals("A001") && strPayload1.equals("")) {
+                if (strLastInstuction.equals("A1") || strLastInstuction.equals("")) {
+                    System.out.println("Waiting for acknowledgement 2");
+                    msgAckTwoFromStorage = connectionToStorage.receive();
+                    System.out.println("Acknowledgement 2 received");
+                    FofUtility.writeInstructionToFile("Slla:"+strOperation+":A2:" + strPalletId,FofUtility.INSTRUCTION_STORAGE_SEQUENCE_FILENAME);
+                    msgAck2 = ((Message) msgAckTwoFromStorage);
+                    strLastInstuction = "";
+                } else {
+                    //TODO
+                    msgAck2 = ((Message) objStoredMessage);
+                }
+                msgAck2 = ((Message) msgAckTwoFromStorage);
+                String strCommand2 = msgAck2.getCommand();
+                String strPayload2 = msgAck2.getPayload();
+                if (strCommand2.equals("A002")) {
+                    if (strPayload2.equals("")) {
+                        isSuccess = true;
+                        System.out.println("Pallet is successfully removed.!");
+                    }
+                } else if (strCommand2.equals("F000")) {
+                    if (strPayload2.equals("")) {
+                        isSuccess = false;
+                        System.out.println("Error in command!");
+                    }
+                } else if (strCommand2.equals("F001")) {
+                    if (strPayload2.equals("")) {
+                        isSuccess = false;
+                        System.out.println("Error in Pallet removal.!");
+                    }
+<<<<<<< .mine
+                }else if (strCommand2.equals("F002")) {
+=======
+                }
+            } else {
+                isSuccess = false;
+            }
+        } else {
+            isSuccess = false;
+            System.out.println("Not a valid communication");
+        }
+        return isSuccess;
+
+    }
+
+    public boolean putPalletIntoStorage(String strPalletId) {
+        Boolean isSuccess = false;
+        MessageIf msgAckOneFromStorage = null;
+        MessageIf msgAckTwoFromStorage = null;
+        MessageIf msgCommandToStorage = new Message("K001", strPalletId);
+        connectionToStorage.send(msgCommandToStorage);
+        msgAckOneFromStorage = connectionToStorage.receive();
+        Message msgAck1 = ((Message) msgAckOneFromStorage);
+        FofUtility.saveConnectionDetails(msgAck1, connectionToStorage);
+        if (isValidCommunication(msgAck1)) {
+            String strCommand1 = msgAck1.getCommand();
+            String strPayload1 = msgAck1.getPayload();
+            if (strCommand1.equals("A001") && strPayload1.equals("")) {
+                msgAckTwoFromStorage = connectionToStorage.receive();
+                Message msgAck2 = ((Message) msgAckTwoFromStorage);
+                String strCommand2 = msgAck2.getCommand();
+                String strPayload2 = msgAck2.getPayload();
+                if (strCommand2.equals("A002")) {
+>>>>>>> .r66
+                    if (strPayload2.equals("")) {
+                        isSuccess = false;
+                        System.out.println("Error in Pallet removal.!");
+                    }
+                }
+            } else {
+                isSuccess = false;
+            }
+        } else {
+            System.out.println("Not a valid communication");
+            isSuccess = false;
+        }
+        return isSuccess;      
+    }
+    private boolean isValidCommunication(Message objMessage) {
+        boolean isValid = false;
+        if (objMessage.getSender().equals(ACK_SENDER) && objMessage.getReceiver().equals(ACK_RECEIVER)) {
+            isValid = true;
+        }
+        return isValid;
+    }
+
+    public static void main(String[] args) {
+        ServerStorageControl c = new ServerStorageControl();
+        c.start();
+    }
+
+    public ClientStorageControl getClientStorageControl() {
+        return clientStorageControl;
+    }
+
+    public void setClientStorageControl(ClientStorageControl clientStorageControl) {
+        this.clientStorageControl = clientStorageControl;
+    }
+}

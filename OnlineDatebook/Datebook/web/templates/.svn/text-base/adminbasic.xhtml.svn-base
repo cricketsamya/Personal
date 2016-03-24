@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:rich="http://richfaces.org/rich">
+    <f:loadBundle basename="de.fhhof.datebook.common.ApplicationResources" var="messages"/>
+    <head >
+        <link rel="SHORTCUT ICON"
+              href="http://www.stgregoriosohio.org/Images/calendar.ico"></link>
+        <meta http-equiv="Content-Type" content="text/xhtml; charset=UTF-8"/>
+        <ui:insert name="meta"></ui:insert>
+        <title>
+            <h:outputText value="#{msg.Admin_Basic_Title}" /><h:outputText value=" - ${moduleTitle}" />
+        </title>
+
+        <link rel="STYLESHEET" type="text/css" href="#{controllerBean.contextPath}/#{controllerBean.cssPath}/default.css"/>
+
+
+    </head>
+
+    <body>
+    <f:loadBundle basename="de.fhhof.datebook.common.ApplicationResources" var="msg" />
+        <!-- start header -->
+        <div id="header">
+            <div id="logo">
+                <h1 ><a href="#"  style="font-size: .8em;"><span><h:outputLabel value="#{msg.Admin_Basic_Header1}"/></span><h:outputLabel value="#{msg.Admin_Basic_Header2}"/></a></h1>
+                <div style="margin-left: 700px; padding-top: 20px;">
+                    <h:form>
+                        <h:outputLabel rendered="#{userloginhandler.logged}">
+                            <h:outputText value="#{userloginhandler.user.strEmailID}"/>
+                        </h:outputLabel>
+                        <h:outputLabel rendered="#{userloginhandler.logged}">
+                            <h:outputText value=" |"/>
+                        </h:outputLabel>
+                        <h:commandLink rendered="#{userloginhandler.logged}" action="#{UserLogoutHandler.logout}"  value="#{msg.Admin_Basic_Signout}" />
+                    </h:form>
+                </div>
+            </div>
+
+            <div id="menu">
+                <ul id="main">
+                    <li class="current_page_item">
+                        <a href="#"><h:outputLabel value="#{msg.Admin_Basic_Menu1}"/></a>
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+        </div>
+        <!-- end header -->
+
+        <div id="wrapper">
+            <!-- start page -->
+            <div id="page"  >
+                <div id="sidebar1" class="sidebar" >
+				<ui:insert name="leftBar"><a href="#" style="color: white;">Left Menu</a></ui:insert>
+                </div>
+                <!-- start content -->
+                <div id="content" >
+
+                    <div class="post" style="border: 0px solid red;">
+                        <ui:insert name="body"><a href="#" ><h:outputLabel value="#{msg.Admin_Basic_PageContent}"/></a></ui:insert>
+
+                    </div>
+ 					<ui:insert name="modalPanels"></ui:insert>
+                </div>
+                <!-- end content -->
+
+                <!-- start sidebars -->
+                <div id="sidebar2" class="sidebarx" >
+
+                </div>
+                <!-- end sidebars -->
+                <div style="clear: both;">&nbsp;</div>
+            </div>
+            <!-- end page -->
+        </div>
+        <div id="footer">
+            <p class="copyright">&copy;&nbsp;&nbsp;<h:outputLabel value="#{msg.Admin_Basic_CopyRight}"/>&nbsp;&bull;&nbsp; </p>
+            <p class="link"><a href="#"><h:outputLabel value="#{msg.Admin_Basic_Privacy}"/></a>&nbsp;&#8226;&nbsp;<a href="#"><h:outputLabel value="#{msg.Admin_Basic_TermOfUse}"/></a></p>
+        </div>
+
+
+
+    </body>
+</html>
